@@ -1,0 +1,26 @@
+# ENV (SANGAT PENTING)
+.env
+.env.*
+!.env.example
+
+# Composer
+/vendor/
+
+# Logs & cache
+*.log
+logs/
+cache/
+tmp/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Node (kalau nanti pakai)
+node_modules/
+dist/
+build/
