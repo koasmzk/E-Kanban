@@ -3,28 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TaskFlow — Login</title>
+    <title>TaskFlow — Material & Part Flow</title>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="../../../Public/Css/Login.css">
 </head>
 <body>
-    <div class="login-layout">
-        <!-- === Sisi Kiri: Form Login === -->
-        <div class="login-left">
-            <!-- Logo -->
-            <div class="login-logo">
-                <div class="logo-icon"><i class="fa-solid fa-bolt"></i></div>
-                <div class="logo-text">TaskFlow</div>
-            </div>
+    <div class="login-page">
+        <!-- Background halus -->
+        <div class="page-bg"></div>
 
-            <!-- Form Container -->
-            <div class="login-form-container">
-                <h1 class="login-title">Welcome back!</h1>
-                <p class="login-subtitle">Simplify your workflow and manage tasks effortlessly with TaskFlow.</p>
+        <!-- Main Card -->
+        <div class="main-card">
+            <!-- === Kiri: Form Login === -->
+            <div class="panel-left">
+                <div class="login-logo">
+                    <div class="logo-icon"><i class="fa-solid fa-bolt"></i></div>
+                    <div class="logo-text">TaskFlow</div>
+                    <span class="logo-badge">Industrial</span>
+                </div>
+
+                <h1 class="login-title">Welcome back</h1>
+                <p class="login-subtitle">Sign in to monitor your material & part flow.</p>
 
                 <form id="loginForm" novalidate>
-                    <!-- Username -->
                     <div class="form-group">
                         <label class="form-label" for="username">Username</label>
                         <div class="input-wrapper">
@@ -34,7 +36,6 @@
                         <span class="form-error" id="usernameError"></span>
                     </div>
 
-                    <!-- Password -->
                     <div class="form-group">
                         <label class="form-label" for="password">Password</label>
                         <div class="input-wrapper">
@@ -47,7 +48,6 @@
                         <span class="form-error" id="passwordError"></span>
                     </div>
 
-                    <!-- Remember & Forgot -->
                     <div class="form-options">
                         <label class="checkbox-label">
                             <input type="checkbox" id="rememberMe">
@@ -57,132 +57,127 @@
                         <a href="#" class="forgot-link" id="forgotLink">Forgot password?</a>
                     </div>
 
-                    <!-- Submit -->
                     <button type="submit" class="btn-login" id="loginBtn">
                         <span class="btn-text">Login</span>
                         <span class="btn-loader" style="display:none;"><i class="fa-solid fa-spinner fa-spin"></i></span>
                     </button>
                 </form>
-
-                <!-- Divider -->
-                <div class="divider">
-                    <span>or continue with</span>
-                </div>
-
-                <!-- Social Login -->
-                <div class="social-login">
-                    <button class="social-btn" aria-label="Login with Google">
-                        <svg viewBox="0 0 24 24" width="18" height="18"><path fill="#EA4335" d="M5.27 9.76A7.08 7.08 0 0 1 12 4.91c1.69 0 3.22.59 4.42 1.56l3.31-3.31A11.97 11.97 0 0 0 12 0 12 12 0 0 0 1.24 6.65l4.03 3.11Z"/><path fill="#34A853" d="M16.04 18.01A7.4 7.4 0 0 1 12 19.09a7.08 7.08 0 0 1-6.73-4.85l-4.03 3.11A12 12 0 0 0 12 24c3.08 0 5.92-1.12 8.09-3.01l-4.05-2.98Z"/><path fill="#4A90D9" d="M20.09 20.99A11.82 11.82 0 0 0 24 12c0-.79-.08-1.57-.22-2.32H12v4.64h6.73a5.87 5.87 0 0 1-2.69 3.69l4.05 2.98Z"/><path fill="#FBBC05" d="M5.27 14.24A7.2 7.2 0 0 1 4.91 12c0-.78.13-1.54.36-2.24L1.24 6.65A12 12 0 0 0 0 12c0 1.94.46 3.77 1.24 5.35l4.03-3.11Z"/></svg>
-                    </button>
-                    <button class="social-btn" aria-label="Login with Apple">
-                        <i class="fa-brands fa-apple" style="font-size:20px;"></i>
-                    </button>
-                    <button class="social-btn" aria-label="Login with GitHub">
-                        <i class="fa-brands fa-github" style="font-size:18px;"></i>
-                    </button>
-                </div>
-
-                <!-- Register -->
-                <p class="register-text">Not a member? <a href="#" class="register-link" id="registerLink">Register now</a></p>
+                <br>
+                <p class="register-text">Not a member? <a href="./V_register.php" class="register-link" id="registerLink">Register now</a></p>
             </div>
-        </div>
 
-        <!-- === Sisi Kanan: Ilustrasi === -->
-        <div class="login-right">
-            <!-- Konten dekoratif -->
-            <div class="illustration-content">
-                <!-- Kartu Kanban Mengapung -->
+            <!-- === Kanan: Ilustrasi + Kartu Mengapung === -->
+            <div class="panel-right">
+                <!-- Kartu mengapung -->
                 <div class="float-card float-card-1">
                     <div class="fc-priority high"></div>
-                    <div class="fc-title">Design Sprint</div>
-                    <div class="fc-tags"><span class="fc-tag">Design</span></div>
-                    <div class="fc-avatars">
-                        <div class="fc-avatar" style="background:#6c5ce7;">A</div>
-                        <div class="fc-avatar" style="background:#ff6b6b; margin-left:-6px;">S</div>
+                    <div class="fc-title">Material Inspection</div>
+                    <div class="fc-tags"><span class="fc-tag fc-tag-quality">Quality</span></div>
+                    <div class="fc-meta">
+                        <span class="fc-id">#MAT-0841</span>
+                        <div class="fc-avatars">
+                            <div class="fc-avatar" style="background:#4da6ff;">B</div>
+                            <div class="fc-avatar" style="background:#ff6b6b; margin-left:-6px;">S</div>
+                        </div>
                     </div>
                 </div>
 
                 <div class="float-card float-card-2">
                     <div class="fc-priority medium"></div>
-                    <div class="fc-title">Backend API</div>
-                    <div class="fc-progress-bar"><div class="fc-progress-fill" style="width:65%;"></div></div>
-                    <div class="fc-avatars">
-                        <div class="fc-avatar" style="background:#4da6ff;">R</div>
+                    <div class="fc-title">Parts Assembly Line B</div>
+                    <div class="fc-progress-bar"><div class="fc-progress-fill" style="width:72%;"></div></div>
+                    <div class="fc-meta">
+                        <span class="fc-id">#PRT-0293</span>
+                        <div class="fc-avatars">
+                            <div class="fc-avatar" style="background:#00d68f;">R</div>
+                        </div>
                     </div>
                 </div>
 
                 <div class="float-card float-card-3">
                     <div class="fc-priority low"></div>
-                    <div class="fc-title">User Research</div>
-                    <div class="fc-tags"><span class="fc-tag">Research</span></div>
-                </div>
-
-                <!-- Ilustrasi Utama -->
-                <div class="main-illustration">
-                    <div class="illust-person">
-                        <!-- SVG Person -->
-                        <svg viewBox="0 0 280 340" fill="none" xmlns="http://www.w3.org/2000/svg" class="person-svg">
-                            <!-- Body / Shirt -->
-                            <ellipse cx="140" cy="300" rx="80" ry="40" fill="rgba(108,92,231,0.15)"/>
-                            <path d="M90 180 C90 160 100 140 140 140 C180 140 190 160 190 180 L195 300 C195 310 180 320 140 320 C100 320 85 310 85 300 Z" fill="#6c5ce7"/>
-                            <!-- Collar -->
-                            <path d="M120 145 L140 170 L160 145" stroke="#5a4bd1" stroke-width="3" fill="none"/>
-                            <!-- Head -->
-                            <circle cx="140" cy="110" r="42" fill="#f4c7a3"/>
-                            <!-- Hair -->
-                            <path d="M98 105 C98 70 115 55 140 55 C165 55 182 70 182 105 C182 95 170 80 140 80 C110 80 98 95 98 105Z" fill="#2d1b69"/>
-                            <!-- Eyes closed (meditating) -->
-                            <path d="M122 108 Q128 103 134 108" stroke="#2d1b69" stroke-width="2" fill="none" stroke-linecap="round"/>
-                            <path d="M148 108 Q154 103 160 108" stroke="#2d1b69" stroke-width="2" fill="none" stroke-linecap="round"/>
-                            <!-- Smile -->
-                            <path d="M130 122 Q140 130 150 122" stroke="#c4856c" stroke-width="2" fill="none" stroke-linecap="round"/>
-                            <!-- Arms crossed / resting -->
-                            <path d="M90 190 C70 200 60 230 80 250" stroke="#f4c7a3" stroke-width="14" fill="none" stroke-linecap="round"/>
-                            <path d="M190 190 C210 200 220 230 200 250" stroke="#f4c7a3" stroke-width="14" fill="none" stroke-linecap="round"/>
-                            <!-- Hands on knees -->
-                            <circle cx="80" cy="252" r="10" fill="#f4c7a3"/>
-                            <circle cx="200" cy="252" r="10" fill="#f4c7a3"/>
-                            <!-- Legs crossed -->
-                            <path d="M110 290 C100 300 80 310 70 305" stroke="#3a3d52" stroke-width="16" fill="none" stroke-linecap="round"/>
-                            <path d="M170 290 C180 300 200 310 210 305" stroke="#3a3d52" stroke-width="16" fill="none" stroke-linecap="round"/>
-                        </svg>
+                    <div class="fc-title">Shipping Request</div>
+                    <div class="fc-tags"><span class="fc-tag fc-tag-logistics">Logistics</span></div>
+                    <div class="fc-meta">
+                        <span class="fc-id">#SHP-1567</span>
                     </div>
-
-                    <!-- Glow di belakang -->
-                    <div class="illust-glow"></div>
                 </div>
 
-                <!-- Teks Inspirasi -->
-                <div class="illustration-text">
-                    <h2>Make your work easier<br>and organized</h2>
-                    <p>Manage projects, track progress, and collaborate seamlessly with TaskFlow's intuitive Kanban board.</p>
-                </div>
-
-                <!-- Statistik Mini -->
-                <div class="mini-stats">
-                    <div class="mini-stat">
-                        <div class="mini-stat-icon"><i class="fa-solid fa-list-check"></i></div>
-                        <div>
-                            <div class="mini-stat-value">2,400+</div>
-                            <div class="mini-stat-label">Tasks Completed</div>
-                        </div>
-                    </div>
-                    <div class="mini-stat">
-                        <div class="mini-stat-icon"><i class="fa-solid fa-users"></i></div>
-                        <div>
-                            <div class="mini-stat-value">500+</div>
-                            <div class="mini-stat-label">Active Teams</div>
+                <div class="float-card float-card-4">
+                    <div class="fc-priority medium"></div>
+                    <div class="fc-title">Quality Check B12</div>
+                    <div class="fc-tags"><span class="fc-tag fc-tag-quality">Quality</span></div>
+                    <div class="fc-meta">
+                        <span class="fc-id">#QC-0412</span>
+                        <div class="fc-avatars">
+                            <div class="fc-avatar" style="background:#ffaa00;">M</div>
                         </div>
                     </div>
                 </div>
+
+                <!-- Ilustrasi Pekerja Industri -->
+                <div class="panel-illustration">
+                    <svg viewBox="0 0 300 380" fill="none" xmlns="http://www.w3.org/2000/svg" class="person-svg">
+                        <ellipse cx="150" cy="360" rx="90" ry="18" fill="rgba(0,180,160,0.06)"/>
+                        <rect x="118" y="280" width="22" height="70" rx="8" fill="#2a3a4a"/>
+                        <rect x="158" y="280" width="22" height="70" rx="8" fill="#2a3a4a"/>
+                        <rect x="112" y="336" width="34" height="18" rx="6" fill="#1a2530"/>
+                        <rect x="152" y="336" width="34" height="18" rx="6" fill="#1a2530"/>
+                        <rect x="115" y="340" width="28" height="3" rx="1.5" fill="#ffaa00"/>
+                        <rect x="155" y="340" width="28" height="3" rx="1.5" fill="#ffaa00"/>
+                        <rect x="105" y="180" width="88" height="110" rx="12" fill="#00b4a0"/>
+                        <rect x="105" y="210" width="88" height="4" rx="2" fill="#c8f0e8" opacity="0.7"/>
+                        <rect x="105" y="250" width="88" height="4" rx="2" fill="#c8f0e8" opacity="0.7"/>
+                        <path d="M130 180 L149 200 L168 180" fill="#009688"/>
+                        <rect x="135" y="174" width="28" height="10" rx="4" fill="#009688"/>
+                        <rect x="78" y="185" width="24" height="75" rx="10" fill="#00b4a0"/>
+                        <rect x="196" y="185" width="24" height="75" rx="10" fill="#00b4a0"/>
+                        <rect x="80" y="250" width="20" height="40" rx="8" fill="#d4a574"/>
+                        <rect x="198" y="250" width="20" height="40" rx="8" fill="#d4a574"/>
+                        <rect x="192" y="282" width="38" height="52" rx="5" fill="#f0f4f8" stroke="#c8d0dc" stroke-width="1.5"/>
+                        <rect x="200" y="292" width="24" height="3" rx="1.5" fill="#c8d0dc"/>
+                        <rect x="200" y="300" width="18" height="3" rx="1.5" fill="#c8d0dc"/>
+                        <rect x="200" y="308" width="22" height="3" rx="1.5" fill="#c8d0dc"/>
+                        <rect x="200" y="316" width="14" height="3" rx="1.5" fill="#c8d0dc"/>
+                        <path d="M197 293 L199 296 L203 290" stroke="#00b4a0" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                        <path d="M197 301 L199 304 L203 298" stroke="#00b4a0" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                        <circle cx="90" cy="292" r="10" fill="#d4a574"/>
+                        <rect x="140" y="150" width="18" height="22" rx="6" fill="#d4a574"/>
+                        <ellipse cx="149" cy="125" rx="38" ry="42" fill="#d4a574"/>
+                        <ellipse cx="149" cy="95" rx="44" ry="22" fill="#ffaa00"/>
+                        <rect x="105" y="90" width="88" height="16" rx="4" fill="#ffaa00"/>
+                        <rect x="105" y="98" width="88" height="4" rx="2" fill="#e69500"/>
+                        <ellipse cx="149" cy="108" rx="48" ry="6" fill="#e69500"/>
+                        <rect x="125" y="86" width="18" height="4" rx="2" fill="#ffcc44" opacity="0.5"/>
+                        <circle cx="134" cy="124" r="3.5" fill="#1a2530"/>
+                        <circle cx="162" cy="124" r="3.5" fill="#1a2530"/>
+                        <circle cx="135.5" cy="122.5" r="1.2" fill="white"/>
+                        <circle cx="163.5" cy="122.5" r="1.2" fill="white"/>
+                        <path d="M126 115 Q134 111 140 115" stroke="#1a2530" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                        <path d="M156 115 Q162 111 170 115" stroke="#1a2530" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                        <path d="M149 128 Q151 134 149 136" stroke="#c4956a" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                        <path d="M138 142 Q149 152 160 142" stroke="#b07a56" stroke-width="2" fill="none" stroke-linecap="round"/>
+                        <ellipse cx="111" cy="125" rx="6" ry="9" fill="#d4a574"/>
+                        <ellipse cx="187" cy="125" rx="6" ry="9" fill="#d4a574"/>
+                        <rect x="116" y="218" width="24" height="32" rx="4" fill="white" stroke="#c8d0dc" stroke-width="1"/>
+                        <rect x="120" y="222" width="16" height="8" rx="2" fill="#4da6ff"/>
+                        <rect x="120" y="234" width="16" height="2" rx="1" fill="#c8d0dc"/>
+                        <rect x="120" y="239" width="12" height="2" rx="1" fill="#c8d0dc"/>
+                        <rect x="125" y="215" width="6" height="5" rx="1" fill="#c8d0dc"/>
+                    </svg>
+                </div>
+
+                <!-- Glow di belakang ilustrasi -->
+                <div class="panel-glow"></div>
+
+                <!-- Canvas partikel -->
+                <canvas class="panel-particles" id="particleCanvas"></canvas>
             </div>
         </div>
 
-        <!-- === Kotak Guide Book Mengapung === -->
+        <!-- Guide Book Box Mengapung -->
         <div class="guide-book-box" id="guideBookBox">
-            <div class="guide-icon-wrapper">
-                <i class="fa-solid fa-book-open"></i>
-            </div>
+            <div class="guide-icon-wrapper"><i class="fa-solid fa-book-open"></i></div>
             <div class="guide-text">
                 <span class="guide-title">Guide Book</span>
                 <span class="guide-desc">Learn how to use TaskFlow</span>
@@ -191,67 +186,25 @@
         </div>
     </div>
 
-    <!-- === Modal Guide Book === -->
+    <!-- Modal Guide Book -->
     <div class="guide-overlay" id="guideOverlay">
         <div class="guide-modal">
             <div class="guide-modal-header">
                 <div class="guide-modal-title">
                     <i class="fa-solid fa-book-open"></i>
-                    <h3>TaskFlow User Guide</h3>
+                    <h3>TaskFlow Industrial Guide</h3>
                 </div>
                 <button class="guide-close-btn" id="guideCloseBtn" aria-label="Close guide">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
             <div class="guide-modal-body">
-                <!-- Step 1 -->
-                <div class="guide-step">
-                    <div class="guide-step-number">1</div>
-                    <div class="guide-step-content">
-                        <h4>Dashboard Overview</h4>
-                        <p>After logging in, you'll see the main dashboard with task statistics cards showing Total Tasks, In Progress, Completed Today, and Overdue counts at the top.</p>
-                    </div>
-                </div>
-                <!-- Step 2 -->
-                <div class="guide-step">
-                    <div class="guide-step-number">2</div>
-                    <div class="guide-step-content">
-                        <h4>Kanban Board</h4>
-                        <p>Your tasks are organized in columns: Backlog, To Do, and In Progress. Each card shows priority, description, tags, due date, and assigned team members.</p>
-                    </div>
-                </div>
-                <!-- Step 3 -->
-                <div class="guide-step">
-                    <div class="guide-step-number">3</div>
-                    <div class="guide-step-content">
-                        <h4>Drag & Drop</h4>
-                        <p>Move tasks between columns by dragging and dropping them. This automatically updates the task status and the statistics counters.</p>
-                    </div>
-                </div>
-                <!-- Step 4 -->
-                <div class="guide-step">
-                    <div class="guide-step-number">4</div>
-                    <div class="guide-step-content">
-                        <h4>Create New Tasks</h4>
-                        <p>Click the "New Task" button or the "+" icon on any column to create a task. Fill in the title, description, priority, due date, and tags.</p>
-                    </div>
-                </div>
-                <!-- Step 5 -->
-                <div class="guide-step">
-                    <div class="guide-step-number">5</div>
-                    <div class="guide-step-content">
-                        <h4>Filter & Search</h4>
-                        <p>Use the filter buttons (All, High Priority, Overdue) to focus on specific tasks. The search bar lets you find tasks by title or description.</p>
-                    </div>
-                </div>
-                <!-- Step 6 -->
-                <div class="guide-step">
-                    <div class="guide-step-number">6</div>
-                    <div class="guide-step-content">
-                        <h4>Sidebar Navigation</h4>
-                        <p>Use the sidebar to switch between Overview, Dashboard, Calendar, and Messages. Collapse it using the arrow button for more workspace. Toggle between dark and light mode with the theme button.</p>
-                    </div>
-                </div>
+                <div class="guide-step"><div class="guide-step-number">1</div><div class="guide-step-content"><h4>Dashboard Overview</h4><p>After logging in, the dashboard displays real-time statistics: Total Materials, In Progress, Completed Today, and Overdue items.</p></div></div>
+                <div class="guide-step"><div class="guide-step-number">2</div><div class="guide-step-content"><h4>Kanban Board — Material Flow</h4><p>Materials and parts are organized in columns: Backlog, To Do, and In Progress. Each card shows priority, part ID, and assigned operator.</p></div></div>
+                <div class="guide-step"><div class="guide-step-number">3</div><div class="guide-step-content"><h4>Drag & Drop Status Updates</h4><p>Move material or part cards between columns by dragging them. This instantly updates the status and notifies the team.</p></div></div>
+                <div class="guide-step"><div class="guide-step-number">4</div><div class="guide-step-content"><h4>Create Material / Part Tickets</h4><p>Click "New Task" or the "+" icon on any column to create a ticket. Specify part number, priority, due date, and category.</p></div></div>
+                <div class="guide-step"><div class="guide-step-number">5</div><div class="guide-step-content"><h4>Filter & Search</h4><p>Filter by High Priority or Overdue to focus on critical items. Search by part ID or material name.</p></div></div>
+                <div class="guide-step"><div class="guide-step-number">6</div><div class="guide-step-content"><h4>Sidebar & Theme</h4><p>Navigate between Overview, Dashboard, Calendar, and Messages via sidebar. Toggle dark/light mode for your environment.</p></div></div>
             </div>
             <div class="guide-modal-footer">
                 <button class="guide-nav-btn" id="guidePrevBtn" disabled><i class="fa-solid fa-chevron-left"></i> Previous</button>
@@ -261,7 +214,7 @@
         </div>
     </div>
 
-    <!-- === Toast === -->
+    <!-- Toast -->
     <div class="toast-container" id="toastContainer"></div>
 
     <script src="../../../Public/Js/Login.js"></script>
