@@ -432,18 +432,14 @@ body.light-mode .guide-book-box { background: rgba(255,255,255,0.72); border-col
 @keyframes toastIn { from { opacity: 0; transform: translateX(30px); } to { opacity: 1; transform: translateX(0); } }
 @keyframes toastOut { from { opacity: 1; transform: translateX(0); } to { opacity: 0; transform: translateX(30px); } }
 
-/* ===================================================
-   TRANSISI HALAMAN (Login <-> Register)
-   =================================================== */
+/* === Transisi Halaman === */
 
-/* Kelas untuk animasi keluar ke kiri (Login -> Register) */
 .page-transition-out-left {
-    animation: transitionOutLeft 0.4s cubic-bezier(0.55, 0, 1, 0.45) forwards;
+    animation: transitionOutLeft 0.45s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
-/* Kelas untuk animasi masuk dari kiri (Register -> Login) */
 .page-transition-in-left {
-    animation: transitionInLeft 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation: transitionInLeft 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 @keyframes transitionOutLeft {
@@ -453,18 +449,29 @@ body.light-mode .guide-book-box { background: rgba(255,255,255,0.72); border-col
     }
     100% {
         opacity: 0;
-        transform: translateX(-100px) scale(0.95);
+        transform: translateX(-120px) scale(0.96);
     }
 }
 
 @keyframes transitionInLeft {
     0% {
         opacity: 0;
-        transform: translateX(-100px) scale(0.95);
+        transform: translateX(-120px) scale(0.96);
     }
     100% {
         opacity: 1;
         transform: translateX(0) scale(1);
+    }
+}
+
+@keyframes cardEntry {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.97);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
     }
 }
 

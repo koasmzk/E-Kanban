@@ -127,3 +127,46 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg-deep); color: va
     .panel-right-form { flex: none; border-left: none; border-top: 1px solid var(--border); padding: 28px 24px; }
     .panel-left-illustration { flex: none; min-height: 320px; }
 }
+
+/* === Transisi Halaman === */
+
+.page-transition-out-right {
+    animation: transitionOutRight 0.45s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.page-transition-in-right {
+    animation: transitionInRight 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes transitionOutRight {
+    0% {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(120px) scale(0.96);
+    }
+}
+
+@keyframes transitionInRight {
+    0% {
+        opacity: 0;
+        transform: translateX(120px) scale(0.96);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
+}
+
+@keyframes cardEntry {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.97);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}

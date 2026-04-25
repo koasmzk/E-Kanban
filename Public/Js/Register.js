@@ -10,20 +10,25 @@ const mainCard = document.querySelector('.main-card');
 
     if (transitionState === 'from_login' && mainCard) {
         // Datang dari Login: animasi masuk dari kanan
+        mainCard.style.animation = '';
+        void mainCard.offsetWidth; // Force reflow
         mainCard.classList.add('page-transition-in-right');
         localStorage.removeItem('taskflow_transition');
 
-        mainCard.addEventListener('animationend', function handler() {
+        const cleanup = () => {
             mainCard.classList.remove('page-transition-in-right');
-            mainCard.removeEventListener('animationend', handler);
-        });
+            mainCard.removeEventListener('animationend', cleanup);
+        };
+        mainCard.addEventListener('animationend', cleanup);
+        setTimeout(cleanup, 700);
+
     } else if (mainCard) {
-        // Load biasa (bukan dari transisi): animasi entry default
+        // Load biasa: animasi entry default
         mainCard.style.animation = 'cardEntry 0.55s cubic-bezier(0.16, 1, 0.3, 1) backwards';
     }
 })();
 
-// === Toggle Password (jika ada di register) ===
+// === Toggle Password ===
 document.querySelectorAll('.toggle-password').forEach(btn => {
     btn.addEventListener('click', () => {
         const input = btn.parentElement.querySelector('.form-input');
@@ -41,7 +46,6 @@ registerForm.addEventListener('submit', (e) => {
     e.preventDefault();
     let valid = true;
 
-    // Clear semua error
     ['fullname', 'regUsername', 'email', 'regPassword', 'confirmPassword'].forEach(clearError);
 
     const fullname = document.getElementById('fullname').value.trim();
@@ -60,7 +64,6 @@ registerForm.addEventListener('submit', (e) => {
 
     if (!valid) return;
 
-    // Simulasi loading
     registerBtn.classList.add('loading');
     registerBtn.disabled = true;
 
@@ -68,10 +71,7 @@ registerForm.addEventListener('submit', (e) => {
         registerBtn.classList.remove('loading');
         registerBtn.disabled = false;
         showToast('success', 'Account created! Redirecting to login...');
-
-        setTimeout(() => {
-            triggerTransitionToLogin();
-        }, 1500);
+        setTimeout(() => triggerTransitionToLogin(), 1500);
     }, 2000);
 });
 
@@ -89,34 +89,52 @@ function clearError(field) {
     if (errorEl) errorEl.textContent = '';
 }
 
-// Real-time clear error saat mengetik
 document.querySelectorAll('.form-input').forEach(input => {
     input.addEventListener('input', () => clearError(input.id));
 });
 
-// === Transisi Kembali ke Login (HANYA SATU HANDLER) ===
+// === Transisi Kembali ke Login ===
 loginLink.addEventListener('click', (e) => {
     e.preventDefault();
     triggerTransitionToLogin();
 });
 
 function triggerTransitionToLogin() {
+    const targetUrl = './V_login.php';
+
     if (!mainCard) {
-        window.location.href = './V_login.php';
+        window.location.href = targetUrl;
         return;
     }
 
-    // Tandai state untuk halaman login
     localStorage.setItem('taskflow_transition', 'from_register');
 
-    // Jalankan animasi keluar ke kanan
+    // PENTING: Hapus inline style.animation terlebih dahulu
+    mainCard.style.animation = '';
+
+    // Force browser reflow agar perubahan style terdaftar
+    // Tanpa ini, browser bisa menggabungkan hapus+ tambah class
+    // dalam satu frame sehingga animasi transisi tidak jalan
+    void mainCard.offsetWidth;
+
+    // Baru tambahkan class transisi
     mainCard.classList.add('page-transition-out-right');
 
-    // Tunggu animasi selesai, lalu pindah halaman
+    let hasNavigated = false;
+
+    const navigate = () => {
+        if (hasNavigated) return;
+        hasNavigated = true;
+        window.location.href = targetUrl;
+    };
+
     mainCard.addEventListener('animationend', function handler() {
         mainCard.removeEventListener('animationend', handler);
-        window.location.href = './V_login.php';
+        navigate();
     });
+
+    // Fallback jika animationend gagal
+    setTimeout(navigate, 600);
 }
 
 // === Toast ===
@@ -136,7 +154,7 @@ function showToast(type, message) {
     }, 3000);
 }
 
-// === Partikel di Panel Ilustrasi ===
+// === Partikel ===
 (function initParticles() {
     const canvas = document.getElementById('particleCanvas');
     if (!canvas) return;
@@ -173,23 +191,18 @@ function showToast(type, message) {
 
     function animate() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-
         particles.forEach(p => {
             p.x += p.speedX;
             p.y += p.speedY;
-
             if (p.x < 0) p.x = canvas.width;
             if (p.x > canvas.width) p.x = 0;
             if (p.y < 0) p.y = canvas.height;
             if (p.y > canvas.height) p.y = 0;
-
             ctx.beginPath();
             ctx.arc(p.x, p.y, Math.max(0.4, p.size), 0, Math.PI * 2);
             ctx.fillStyle = `rgba(0, 180, 160, ${p.opacity})`;
             ctx.fill();
         });
-
-        // Garis penghubung partikel
         for (let i = 0; i < particles.length; i++) {
             for (let j = i + 1; j < particles.length; j++) {
                 const dx = particles[i].x - particles[j].x;
@@ -205,15 +218,12 @@ function showToast(type, message) {
                 }
             }
         }
-
         animId = requestAnimationFrame(animate);
     }
 
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
     init();
     if (!prefersReduced) animate();
-
     window.addEventListener('resize', () => {
         cancelAnimationFrame(animId);
         init();
@@ -221,7 +231,7 @@ function showToast(type, message) {
     });
 })();
 
-// === Parallax pada Kartu Mengapung ===
+// === Parallax ===
 const panelLeft = document.querySelector('.panel-left-illustration');
 if (panelLeft) {
     panelLeft.addEventListener('mousemove', (e) => {
@@ -249,10 +259,6 @@ if (panelLeft) {
 
 // === Input Focus ===
 document.querySelectorAll('.form-input').forEach(input => {
-    input.addEventListener('focus', () => {
-        input.closest('.input-wrapper').classList.add('focused');
-    });
-    input.addEventListener('blur', () => {
-        input.closest('.input-wrapper').classList.remove('focused');
-    });
+    input.addEventListener('focus', () => input.closest('.input-wrapper').classList.add('focused'));
+    input.addEventListener('blur', () => input.closest('.input-wrapper').classList.remove('focused'));
 });

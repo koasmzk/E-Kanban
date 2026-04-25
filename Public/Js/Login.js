@@ -23,20 +23,26 @@ const totalGuideSteps = 6;
 
     if (transitionState === 'from_register' && mainCard) {
         // Datang dari Register: animasi masuk dari kiri
+        mainCard.style.animation = '';
+        void mainCard.offsetWidth; // Force reflow
         mainCard.classList.add('page-transition-in-left');
         localStorage.removeItem('taskflow_transition');
 
-        mainCard.addEventListener('animationend', function handler() {
+        const cleanup = () => {
             mainCard.classList.remove('page-transition-in-left');
-            mainCard.removeEventListener('animationend', handler);
-        });
+            mainCard.removeEventListener('animationend', cleanup);
+        };
+        mainCard.addEventListener('animationend', cleanup);
+        setTimeout(cleanup, 700);
+
     } else if (mainCard) {
-        // Load biasa (bukan dari transisi): animasi entry default
+        // Load biasa: animasi entry default
         mainCard.classList.add('animate-entry');
-        mainCard.addEventListener('animationend', function handler() {
+        const cleanup = () => {
             mainCard.classList.remove('animate-entry');
-            mainCard.removeEventListener('animationend', handler);
-        });
+            mainCard.removeEventListener('animationend', cleanup);
+        };
+        mainCard.addEventListener('animationend', cleanup);
     }
 })();
 
@@ -97,7 +103,7 @@ forgotLink.addEventListener('click', (e) => {
     showToast('info', 'Password reset link sent to your email');
 });
 
-// === Transisi ke Register (PENTING: Hanya satu handler) ===
+// === Transisi ke Register ===
 registerLink.addEventListener('click', (e) => {
     e.preventDefault();
 
@@ -106,17 +112,33 @@ registerLink.addEventListener('click', (e) => {
         return;
     }
 
-    // Tandai state untuk halaman register
     localStorage.setItem('taskflow_transition', 'from_login');
 
-    // Jalankan animasi keluar ke kiri
+    // Hapus semua class animasi sebelumnya
+    mainCard.classList.remove('animate-entry', 'page-transition-in-left');
+    mainCard.style.animation = '';
+
+    // Force reflow
+    void mainCard.offsetWidth;
+
+    // Tambahkan class transisi keluar
     mainCard.classList.add('page-transition-out-left');
 
-    // Tunggu animasi selesai, lalu pindah halaman
+    let hasNavigated = false;
+
+    const navigate = () => {
+        if (hasNavigated) return;
+        hasNavigated = true;
+        window.location.href = './V_register.php';
+    };
+
     mainCard.addEventListener('animationend', function handler() {
         mainCard.removeEventListener('animationend', handler);
-        window.location.href = './V_register.php';
+        navigate();
     });
+
+    // Fallback
+    setTimeout(navigate, 600);
 });
 
 // === Guide Book ===
@@ -191,7 +213,7 @@ function showToast(type, message) {
     setTimeout(() => { if (toast.parentNode) toast.parentNode.removeChild(toast); }, 3000);
 }
 
-// === Parallax pada Kartu Mengapung ===
+// === Parallax ===
 const panelRight = document.querySelector('.panel-right');
 if (panelRight) {
     panelRight.addEventListener('mousemove', (e) => {
@@ -215,7 +237,7 @@ if (panelRight) {
     });
 }
 
-// === Partikel di Panel Kanan ===
+// === Partikel ===
 (function initParticles() {
     const canvas = document.getElementById('particleCanvas');
     if (!canvas) return;
@@ -227,36 +249,24 @@ if (panelRight) {
 
     function resize() { canvas.width = panel.clientWidth; canvas.height = panel.clientHeight; }
     function createParticle() {
-        return {
-            x: Math.random() * canvas.width, y: Math.random() * canvas.height,
-            size: Math.random() * 1.6 + 0.4, speedX: (Math.random() - 0.5) * 0.2,
-            speedY: (Math.random() - 0.5) * 0.2, opacity: Math.random() * 0.25 + 0.06
-        };
+        return { x: Math.random() * canvas.width, y: Math.random() * canvas.height, size: Math.random() * 1.6 + 0.4, speedX: (Math.random() - 0.5) * 0.2, speedY: (Math.random() - 0.5) * 0.2, opacity: Math.random() * 0.25 + 0.06 };
     }
-    function init() {
-        resize(); particles = [];
-        const count = Math.floor((canvas.width * canvas.height) / 14000);
-        for (let i = 0; i < Math.min(count, 50); i++) particles.push(createParticle());
-    }
+    function init() { resize(); particles = []; const count = Math.floor((canvas.width * canvas.height) / 14000); for (let i = 0; i < Math.min(count, 50); i++) particles.push(createParticle()); }
     function animate() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         particles.forEach(p => {
             p.x += p.speedX; p.y += p.speedY;
             if (p.x < 0) p.x = canvas.width; if (p.x > canvas.width) p.x = 0;
             if (p.y < 0) p.y = canvas.height; if (p.y > canvas.height) p.y = 0;
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, Math.max(0.4, p.size), 0, Math.PI * 2);
-            ctx.fillStyle = `rgba(0, 180, 160, ${p.opacity})`;
-            ctx.fill();
+            ctx.beginPath(); ctx.arc(p.x, p.y, Math.max(0.4, p.size), 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(0, 180, 160, ${p.opacity})`; ctx.fill();
         });
         for (let i = 0; i < particles.length; i++) {
             for (let j = i + 1; j < particles.length; j++) {
-                const dx = particles[i].x - particles[j].x;
-                const dy = particles[i].y - particles[j].y;
+                const dx = particles[i].x - particles[j].x, dy = particles[i].y - particles[j].y;
                 const dist = Math.sqrt(dx * dx + dy * dy);
                 if (dist < 100) {
-                    ctx.beginPath();
-                    ctx.moveTo(particles[i].x, particles[i].y);
+                    ctx.beginPath(); ctx.moveTo(particles[i].x, particles[i].y);
                     ctx.lineTo(particles[j].x, particles[j].y);
                     ctx.strokeStyle = `rgba(0, 180, 160, ${0.04 * (1 - dist / 100)})`;
                     ctx.lineWidth = 0.5; ctx.stroke();
@@ -265,7 +275,6 @@ if (panelRight) {
         }
         animId = requestAnimationFrame(animate);
     }
-
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     init(); if (!prefersReduced) animate();
     window.addEventListener('resize', () => { cancelAnimationFrame(animId); init(); if (!prefersReduced) animate(); });
