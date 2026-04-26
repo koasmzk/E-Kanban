@@ -25,7 +25,7 @@
             <!-- === Kanan: Form Register === -->
             <div class="panel-right-form">
                 <div class="login-logo">
-                    <div class="logo-icon"><i class="fa-solid fa-bolt"></i></div>
+                    <div class="logo-icon"><i class="fa-solid fa-tasks"></i></div>
                     <div class="logo-text">E-Kanban</div>
                 </div>
 
