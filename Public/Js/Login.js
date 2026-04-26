@@ -79,7 +79,7 @@ registerLink.addEventListener('click', (e) => {
     void mainCard.offsetWidth;
     mainCard.classList.add('page-transition-out-left');
     let hasNavigated = false;
-    const navigate = () => { if (hasNavigated) return; hasNavigated = true; window.location.href = 'register.html'; };
+    const navigate = () => { if (hasNavigated) return; hasNavigated = true; window.location.href = './V_register.php'; };
     mainCard.addEventListener('animationend', function handler() { mainCard.removeEventListener('animationend', handler); navigate(); });
     setTimeout(navigate, 600);
 });
