@@ -92,11 +92,13 @@ class C_register
 
         if ($success) {
             $_SESSION['register_success'] = 'Akun berhasil dibuat! Silakan login.';
-            header('Location: /login');
+            // ── GANTI DENGAN BASE URL ──
+            header('Location: ' . $GLOBALS['baseURL'] . '/login');
             exit;
         } else {
             $_SESSION['register_errors'] = ['Terjadi kesalahan server. Coba lagi.'];
-            header('Location: /register');
+            // ── GANTI JUGA JIKA GAGAL ──
+            header('Location: ' . $GLOBALS['baseURL'] . '/register');
             exit;
         }
     }

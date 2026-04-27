@@ -50,7 +50,7 @@ if (registerForm) {
         if (!password || password.length < 8) { showError('regPassword', 'Min 8 chars'); valid = false; }
         if (password !== confirm) { showError('confirmPassword', 'Not match'); valid = false; }
 
-        // ── LOGIJA KRUSIAL ──
+        // ── LOGIKA KRUSIAL ──
         // Jika validasi gagal, cegah form kirim data (hentikan di sini)
         if (!valid) {
             e.preventDefault(); 
@@ -58,7 +58,7 @@ if (registerForm) {
         }
 
         // Jika validasi BERHASIL, jangan tahan form!
-        // Biarkan form mengirim data secara natural ke action="/register/store" di PHP
+        // Biarkan form mengirim data secara natural ke action yang ada di HTML
         registerBtn.classList.add('loading'); 
         registerBtn.disabled = true;
     });
@@ -70,12 +70,16 @@ document.querySelectorAll('.form-input').forEach(input => { input.addEventListen
 
 // === Transisi ke Login ===
 if (loginLink) {
-    loginLink.addEventListener('click', (e) => { e.preventDefault(); triggerTransitionToLogin(); });
+    loginLink.addEventListener('click', (e) => { 
+        e.preventDefault(); 
+        // ── PERBAIKAN: Ambil URL dari href tag <a> yang sudah diberi Base URL oleh PHP ──
+        const targetUrl = e.currentTarget.href; 
+        triggerTransitionToLogin(targetUrl); 
+    });
 }
 
-function triggerTransitionToLogin() {
-    // Ubah nanti ke '/login' jika route sudah ada
-    const targetUrl = '/login'; 
+// ── PERBAIKAN: Fungsi sekarang menerima targetUrl dari parameter ──
+function triggerTransitionToLogin(targetUrl) {
     if (!mainCard) { window.location.href = targetUrl; return; }
     localStorage.setItem('taskflow_transition', 'from_register');
     mainCard.style.animation = '';

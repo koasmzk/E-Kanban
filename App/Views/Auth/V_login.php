@@ -1,3 +1,9 @@
+<?php
+// Ambil flash message dari session jika ada
+ $successMsg = $_SESSION['register_success'] ?? [];
+ $errors = $_SESSION['login_errors'] ?? [];
+unset($_SESSION['register_success'], $_SESSION['login_errors']);
+?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -6,7 +12,8 @@
     <title>Masuk E-Kanban</title>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link rel="stylesheet" href="../../../Public/Css/Login.css?v=2">
+    <!-- ✮ GANTI PATH CSS PAKAI BASE URL ✮ -->
+    <link rel="stylesheet" href="<?= $GLOBALS['baseURL'] ?>/Public/Css/Login.css?v=<?= time() ?>">
 </head>
 <body>
     <div class="login-page">
@@ -21,12 +28,32 @@
                 <h1 class="login-title">Selamat Datang</h1>
                 <p class="login-subtitle">Silahkan masuk dengan akun anda</p>
 
-                <form id="loginForm" novalidate>
+                <!-- ✮ Pesan Sukses dari Register ✮ -->
+                <?php if (!empty($successMsg)): ?>
+                    <div style="color: #0f5132; background: #d1e7dd; padding: 10px; border-radius: 8px; margin-bottom: 15px; font-size: 0.85rem;">
+                        <?= htmlspecialchars($successMsg) ?>
+                    </div>
+                <?php endif; ?>
+
+                <!-- ✮ Pesan Error dari Controller Login ✮ -->
+                <?php if (!empty($errors)): ?>
+                    <div style="color: #842029; background: #f8d7da; padding: 10px; border-radius: 8px; margin-bottom: 15px; font-size: 0.85rem;">
+                        <ul style="margin-left: 15px; margin-bottom: 0;">
+                            <?php foreach ($errors as $error): ?>
+                                <li><?= htmlspecialchars($error) ?></li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </div>
+                <?php endif; ?>
+
+                <!-- ✮ TAMBAHKAN action & method, gunakan Base URL ✮ -->
+                <form id="loginForm" action="<?= $GLOBALS['baseURL'] ?>/login/auth" method="POST" novalidate>
                     <div class="form-group">
                         <label class="form-label" for="username">Username</label>
                         <div class="input-wrapper">
                             <i class="fa-regular fa-user input-icon"></i>
-                            <input type="text" class="form-input" id="username" placeholder="Masukkan Username" autocomplete="username">
+                            <!-- ✮ TAMBAHKAN name="username" ✮ -->
+                            <input type="text" class="form-input" id="username" name="username" placeholder="Masukkan Username" autocomplete="username">
                         </div>
                         <span class="form-error" id="usernameError"></span>
                     </div>
@@ -35,7 +62,8 @@
                         <label class="form-label" for="password">Password</label>
                         <div class="input-wrapper">
                             <i class="fa-solid fa-lock input-icon"></i>
-                            <input type="password" class="form-input" id="password" placeholder="Masukkan Password" autocomplete="current-password">
+                            <!-- ✮ TAMBAHKAN name="password" ✮ -->
+                            <input type="password" class="form-input" id="password" name="password" placeholder="Masukkan Password" autocomplete="current-password">
                             <button type="button" class="toggle-password" id="togglePassword" aria-label="Toggle password visibility">
                                 <i class="fa-regular fa-eye"></i>
                             </button>
@@ -58,13 +86,15 @@
                     </button>
                 </form>
                 <br>
-                <p class="register-text">Belum punya akun? <a href=".\V_register.php" class="register-link" id="registerLink">Ayo Buat!</a></p>
+                <!-- ✮ UBAH LINK KE ROUTE MVC ✮ -->
+                <p class="register-text">Belum punya akun? <a href="<?= $GLOBALS['baseURL'] ?>/register" class="register-link" id="registerLink">Ayo Buat!</a></p>
             </div>
 
             <!-- === Kanan: Ilustrasi === -->
             <div class="panel-right">
                 <div class="illustration-wrapper">
-                    <img src="../../../Public/Assets/Img/Illustration.png" alt="TaskFlow Illustration" class="illustration-img">
+                    <!-- ✮ GANTI PATH IMG PAKAI BASE URL ✮ -->
+                    <img src="<?= $GLOBALS['baseURL'] ?>/Public/Assets/Img/Illustration.png" alt="TaskFlow Illustration" class="illustration-img">
                 </div>
                 <div class="illustration-tagline">
                     <span class="tagline-accent"></span>
@@ -108,6 +138,7 @@
     </div>
 
     <div class="toast-container" id="toastContainer"></div>
-    <script src="../../../Public/Js/Login.js?v=2"></script>
+    <!-- ✮ GANTI PATH JS PAKAI BASE URL ✮ -->
+    <script src="<?= $GLOBALS['baseURL'] ?>/Public/Js/Login.js?v=<?= time() ?>"></script>
 </body>
 </html>

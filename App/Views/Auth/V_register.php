@@ -109,7 +109,7 @@ unset($_SESSION['register_errors'], $_SESSION['old_input']);
                     </button>
                 </form>
 
-                <p class="register-text" style="margin-top: 24px;">Sudah Punya Akun? <a href="/login" class="register-link" id="loginLink">Ayo Masuk!</a></p>
+                <p class="register-text" style="margin-top: 24px;">Sudah Punya Akun? <a href="<?= $GLOBALS['baseURL'] ?>/login" class="register-link" id="loginLink">Ayo Masuk!</a></p>
             </div>
         </div>
     </div>

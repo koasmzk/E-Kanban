@@ -1,30 +1,32 @@
 <?php
 session_start();
 
-// ── Definisikan Path Root Project (Wajib ada) ──
 define('ROOT', __DIR__);
 
-// ── Deteksi Base URL secara otomatis ──
  $baseDir = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME']));
  $baseURL = $baseDir === '/' ? '' : $baseDir;
 
-// Ambil URI dan bersihkan dari Base URL
  $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 if ($baseURL !== '' && str_starts_with($uri, $baseURL)) {
     $uri = substr($uri, strlen($baseURL));
 }
  $uri = rtrim($uri, '/') ?: '/';
 
-// Kirim $baseURL ke View agar bisa dipakai di HTML
  $GLOBALS['baseURL'] = $baseURL;
 
-require_once ROOT . '/App/Controllers/Auth/C_register.php'; // Ubah jadi pakai ROOT
+require_once ROOT . '/App/Controllers/Auth/C_register.php';
+require_once ROOT . '/App/Controllers/Auth/C_login.php'; // ✮ Tambahkan ini
 
  $registerController = new C_register();
+ $loginController = new C_login(); // ✮ Tambahkan ini
 
 switch ($uri) {
     case '/':
-        header('Location: ' . $baseURL . '/register');
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: ' . $baseURL . '/register');
+        } else {
+            header('Location: ' . $baseURL . '/dashboard');
+        }
         exit;
         break;
 
@@ -34,6 +36,10 @@ switch ($uri) {
 
     case '/register/store':
         $registerController->store();
+        break;
+
+    case '/login': // ✮ Tambahkan case ini
+        $loginController->index();
         break;
 
     default:
