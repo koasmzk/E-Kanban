@@ -1,6 +1,6 @@
 <?php
 // Sesuaikan path ke ConnectDB.php (naik 3 level dari App/Models/Auth/ ke root)
-require_once dirname(__DIR__, 3) . '../../../Config/Connection/ConnectDB.php';
+require_once dirname(__DIR__, 3) . '../Config\Connection\ConnectDB.php';
 
 class M_register
 {

@@ -12,7 +12,7 @@ unset($_SESSION['register_errors'], $_SESSION['old_input']);
     <title>Buat Akun E-Kanban</title>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link rel="stylesheet" href="../../../Public/Css/Register.css?v=2">
+    <link rel="stylesheet" href="<?= $GLOBALS['baseURL'] ?>/Public/Css/Register.css?v=<?= time() ?>">
 </head>
 <body>
     <div class="login-page">
@@ -20,7 +20,7 @@ unset($_SESSION['register_errors'], $_SESSION['old_input']);
             <!-- === Kiri: Ilustrasi === -->
             <div class="panel-left-illustration">
                 <div class="illustration-wrapper">
-                    <img src="../../../Public/Assets/Img/Illustration.png" alt="TaskFlow Illustration" class="illustration-img">
+                    <img src="<?= $GLOBALS['baseURL'] ?>/Public/Assets/Img/Illustration.png" alt="TaskFlow Illustration" class="illustration-img">
                 </div>
                 <div class="illustration-tagline">
                     <span class="tagline-accent"></span>
@@ -50,7 +50,7 @@ unset($_SESSION['register_errors'], $_SESSION['old_input']);
                 <?php endif; ?>
 
                 <!-- ✮ PERBAIKAN: Tambah action, method, dan pastikan id ada ✮ -->
-                <form id="registerForm" action="/register/store" method="POST" novalidate>
+                <form id="registerForm" action="./register/store" method="POST" novalidate>
                     <div class="form-row">
                         <div class="form-group">
                             <label class="form-label" for="fullname">Full Name</label>
@@ -115,6 +115,6 @@ unset($_SESSION['register_errors'], $_SESSION['old_input']);
     </div>
 
     <div class="toast-container" id="toastContainer"></div>
-    <script src="../../../Public/Js/Register.js"></script>
+    <script src="<?= $GLOBALS['baseURL'] ?>/Public/Js/Register.js?v=<?= time() ?>"></script>
 </body>
 </html>

@@ -8,8 +8,9 @@ class ConnectDB
     public static function getInstance(): PDO
     {
         if (self::$instance === null) {
-            // Naik 2 level dari Config/Connection/ ke root
-            $envPath = dirname(__DIR__, 2) . '../../.env';
+            
+            // ── PERBAIKAN: Langsung panggil dari ROOT ──
+            $envPath = ROOT . '/.env';
 
             if (!file_exists($envPath)) {
                 throw new RuntimeException('.env file not found at: ' . $envPath);

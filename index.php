@@ -1,28 +1,30 @@
 <?php
 session_start();
 
-// ── DETEKSI BASE URL SECARA OTOMATIS ──
+// ── Definisikan Path Root Project (Wajib ada) ──
+define('ROOT', __DIR__);
+
+// ── Deteksi Base URL secara otomatis ──
  $baseDir = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME']));
-define('BASE_URL', $baseDir === '/' ? '' : $baseDir);
+ $baseURL = $baseDir === '/' ? '' : $baseDir;
 
- $uri  = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-// Hapus base folder dari URI agar routing tetap bersih
-if (BASE_URL !== '' && str_starts_with($uri, BASE_URL)) {
-    $uri = substr($uri, strlen(BASE_URL));
+// Ambil URI dan bersihkan dari Base URL
+ $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+if ($baseURL !== '' && str_starts_with($uri, $baseURL)) {
+    $uri = substr($uri, strlen($baseURL));
 }
- $uri  = rtrim($uri, '/') ?: '/';
+ $uri = rtrim($uri, '/') ?: '/';
 
-require_once __DIR__ . '/App/Controllers/Auth/C_register.php';
+// Kirim $baseURL ke View agar bisa dipakai di HTML
+ $GLOBALS['baseURL'] = $baseURL;
+
+require_once ROOT . '/App/Controllers/Auth/C_register.php'; // Ubah jadi pakai ROOT
 
  $registerController = new C_register();
 
 switch ($uri) {
     case '/':
-        if (!isset($_SESSION['user_id'])) {
-            header('Location: ' . BASE_URL . '/register');
-        } else {
-            header('Location: ' . BASE_URL . '/dashboard');
-        }
+        header('Location: ' . $baseURL . '/register');
         exit;
         break;
 
