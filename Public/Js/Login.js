@@ -36,66 +36,84 @@ const totalGuideSteps = 6;
 })();
 
 // === Toggle Password ===
-togglePasswordBtn.addEventListener('click', () => {
-    const isPassword = passwordInput.type === 'password';
-    passwordInput.type = isPassword ? 'text' : 'password';
-    togglePasswordBtn.innerHTML = isPassword ? '<i class="fa-regular fa-eye-slash"></i>' : '<i class="fa-regular fa-eye"></i>';
-});
+if (togglePasswordBtn) {
+    togglePasswordBtn.addEventListener('click', () => {
+        const isPassword = passwordInput.type === 'password';
+        passwordInput.type = isPassword ? 'text' : 'password';
+        togglePasswordBtn.innerHTML = isPassword ? '<i class="fa-regular fa-eye-slash"></i>' : '<i class="fa-regular fa-eye"></i>';
+    });
+}
 
 // === Validasi ===
-loginForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    let valid = true;
-    clearError('username'); clearError('password');
-    const username = usernameInput.value.trim();
-    const password = passwordInput.value.trim();
-    if (!username) { showError('username', 'Username is required'); valid = false; }
-    else if (username.length < 3) { showError('username', 'Min 3 characters'); valid = false; }
-    if (!password) { showError('password', 'Password is required'); valid = false; }
-    else if (password.length < 6) { showError('password', 'Min 6 characters'); valid = false; }
-    if (!valid) return;
-    loginBtn.classList.add('loading'); loginBtn.disabled = true;
-    setTimeout(() => {
-        loginBtn.classList.remove('loading'); loginBtn.disabled = false;
-        showToast('success', 'Login successful! Redirecting...');
-        setTimeout(() => showToast('info', 'Would redirect to dashboard (index.html)'), 1500);
-    }, 1800);
-});
+if (loginForm) {
+    loginForm.addEventListener('submit', (e) => {
+        let valid = true;
+        clearError('username'); clearError('password');
+        const username = usernameInput.value.trim();
+        const password = passwordInput.value.trim();
+        
+        if (!username) { showError('username', 'Username is required'); valid = false; }
+        else if (username.length < 3) { showError('username', 'Min 3 characters'); valid = false; }
+        if (!password) { showError('password', 'Password is required'); valid = false; }
+        else if (password.length < 6) { showError('password', 'Min 6 characters'); valid = false; }
 
-function showError(field, message) { document.getElementById(field).classList.add('error'); document.getElementById(field + 'Error').textContent = message; }
-function clearError(field) { document.getElementById(field).classList.remove('error'); document.getElementById(field + 'Error').textContent = ''; }
-usernameInput.addEventListener('input', () => clearError('username'));
-passwordInput.addEventListener('input', () => clearError('password'));
+        // ── LOGIKA KRUSIAL ──
+        // Jika validasi gagal, cegah form kirim data (hentikan di sini)
+        if (!valid) {
+            e.preventDefault(); 
+            return;
+        }
 
-forgotLink.addEventListener('click', (e) => { e.preventDefault(); showToast('info', 'Password reset link sent to your email'); });
+        // Jika validasi BERHASIL, jangan tahan form!
+        // Biarkan form mengirim data secara natural ke action yang ada di HTML (ke PHP)
+        loginBtn.classList.add('loading'); 
+        loginBtn.disabled = true;
+    });
+}
+
+function showError(field, message) { const input = document.getElementById(field); const errorEl = document.getElementById(field + 'Error'); if(input) input.classList.add('error'); if(errorEl) errorEl.textContent = message; }
+function clearError(field) { const input = document.getElementById(field); const errorEl = document.getElementById(field + 'Error'); if(input) input.classList.remove('error'); if(errorEl) errorEl.textContent = ''; }
+if (usernameInput) usernameInput.addEventListener('input', () => clearError('username'));
+if (passwordInput) passwordInput.addEventListener('input', () => clearError('password'));
+
+if (forgotLink) forgotLink.addEventListener('click', (e) => { e.preventDefault(); showToast('info', 'Password reset link sent to your email'); });
 
 // === Transisi ke Register ===
-registerLink.addEventListener('click', (e) => {
-    e.preventDefault();
-    if (!mainCard) { window.location.href = './V_register.php'; return; }
-    localStorage.setItem('taskflow_transition', 'from_login');
-    mainCard.classList.remove('animate-entry', 'page-transition-in-left');
-    mainCard.style.animation = '';
-    void mainCard.offsetWidth;
-    mainCard.classList.add('page-transition-out-left');
-    let hasNavigated = false;
-    const navigate = () => { if (hasNavigated) return; hasNavigated = true; window.location.href = './V_register.php'; };
-    mainCard.addEventListener('animationend', function handler() { mainCard.removeEventListener('animationend', handler); navigate(); });
-    setTimeout(navigate, 600);
-});
+if (registerLink) {
+    registerLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        // ── PERBAIKAN: Ambil URL dari href tag <a> yang sudah diberi Base URL oleh PHP ──
+        const targetUrl = e.currentTarget.href; 
+        
+        if (!mainCard) { window.location.href = targetUrl; return; }
+        localStorage.setItem('taskflow_transition', 'from_login');
+        mainCard.classList.remove('animate-entry', 'page-transition-in-left');
+        mainCard.style.animation = '';
+        void mainCard.offsetWidth;
+        mainCard.classList.add('page-transition-out-left');
+        let hasNavigated = false;
+        // ── PERBAIKAN: Gunakan targetUrl dari parameter, bukan hardcoded ──
+        const navigate = () => { if (hasNavigated) return; hasNavigated = true; window.location.href = targetUrl; };
+        mainCard.addEventListener('animationend', function handler() { mainCard.removeEventListener('animationend', handler); navigate(); });
+        setTimeout(navigate, 600);
+    });
+}
 
 // === Guide Book ===
-guideBookBox.addEventListener('click', () => openGuideModal());
+if (guideBookBox) {
+    guideBookBox.addEventListener('click', () => openGuideModal());
+}
 function openGuideModal() { currentGuideStep = 0; renderGuideStep(); guideOverlay.classList.add('active'); document.body.style.overflow = 'hidden'; }
 function closeGuideModal() { guideOverlay.classList.remove('active'); document.body.style.overflow = ''; }
-guideCloseBtn.addEventListener('click', closeGuideModal);
-guideOverlay.addEventListener('click', (e) => { if (e.target === guideOverlay) closeGuideModal(); });
+if (guideCloseBtn) guideCloseBtn.addEventListener('click', closeGuideModal);
+if (guideOverlay) guideOverlay.addEventListener('click', (e) => { if (e.target === guideOverlay) closeGuideModal(); });
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && guideOverlay.classList.contains('active')) closeGuideModal();
     if (guideOverlay.classList.contains('active')) { if (e.key === 'ArrowRight') navigateGuide(1); if (e.key === 'ArrowLeft') navigateGuide(-1); }
 });
-guidePrevBtn.addEventListener('click', () => navigateGuide(-1));
-guideNextBtn.addEventListener('click', () => navigateGuide(1));
+if (guidePrevBtn) guidePrevBtn.addEventListener('click', () => navigateGuide(-1));
+if (guideNextBtn) guideNextBtn.addEventListener('click', () => navigateGuide(1));
+
 function navigateGuide(dir) {
     currentGuideStep += dir;
     if (currentGuideStep < 0) currentGuideStep = 0;
@@ -114,7 +132,8 @@ function renderGuideStep() {
 
 // === Toast ===
 function showToast(type, message) {
-    const container = document.getElementById('toastContainer'); const toast = document.createElement('div'); toast.className = `toast ${type}`;
+    const container = document.getElementById('toastContainer'); if(!container) return;
+    const toast = document.createElement('div'); toast.className = `toast ${type}`;
     const icons = { success: 'fa-solid fa-circle-check', error: 'fa-solid fa-circle-xmark', info: 'fa-solid fa-circle-info' };
     toast.innerHTML = `<i class="${icons[type]}"></i><span>${message}</span>`; container.appendChild(toast);
     setTimeout(() => { if (toast.parentNode) toast.parentNode.removeChild(toast); }, 3000);
