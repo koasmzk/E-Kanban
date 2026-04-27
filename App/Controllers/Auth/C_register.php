@@ -87,7 +87,7 @@ class C_register
             'username' => $username,
             'email'    => $email,
             'password' => $hashedPassword,
-            'role'     => 'member',
+            'role'     => 'admin',
         ]);
 
         if ($success) {
