@@ -32,13 +32,24 @@
                 <h1 class="login-title">Buat Akun</h1>
                 <p class="login-subtitle">Mulai membuat akun anda dengan mudah!</p>
 
-                <form id="registerForm" novalidate>
+                <!-- Tambahkan method dan action -->
+                <form id="registerForm" method="POST" action="/register/store" novalidate>
+                    
+                    <!-- Flash Message Server-side (opsional, jika JS dimatikan) -->
+                    <?php if(isset($_SESSION['register_errors'])): ?>
+                        <div style="color: #dc3545; font-size: 0.85rem; margin-bottom: 10px;">
+                            <?php foreach($_SESSION['register_errors'] as $err) echo "<p>$err</p>"; ?>
+                        </div>
+                        <?php unset($_SESSION['register_errors']); ?>
+                    <?php endif; ?>
+
                     <div class="form-row">
                         <div class="form-group">
                             <label class="form-label" for="fullname">Full Name</label>
                             <div class="input-wrapper">
                                 <i class="fa-regular fa-id-card input-icon"></i>
-                                <input type="text" class="form-input" id="fullname" placeholder="Nama Anda?" autocomplete="name">
+                                <!-- Tambahkan name="fullname" dan value old input -->
+                                <input type="text" class="form-input" id="fullname" name="fullname" placeholder="Nama Anda?" autocomplete="name" value="<?= htmlspecialchars($_SESSION['old_input']['fullname'] ?? '') ?>">
                             </div>
                             <span class="form-error" id="fullnameError"></span>
                         </div>
@@ -46,7 +57,8 @@
                             <label class="form-label" for="regUsername">Username</label>
                             <div class="input-wrapper">
                                 <i class="fa-regular fa-user input-icon"></i>
-                                <input type="text" class="form-input" id="regUsername" placeholder="Panggilan?" autocomplete="username">
+                                <!-- Tambahkan name="username" -->
+                                <input type="text" class="form-input" id="regUsername" name="username" placeholder="Panggilan?" autocomplete="username" value="<?= htmlspecialchars($_SESSION['old_input']['username'] ?? '') ?>">
                             </div>
                             <span class="form-error" id="regUsernameError"></span>
                         </div>
@@ -56,7 +68,8 @@
                         <label class="form-label" for="email">Email Address</label>
                         <div class="input-wrapper">
                             <i class="fa-regular fa-envelope input-icon"></i>
-                            <input type="email" class="form-input" id="email" placeholder="Masukkan Email Anda" autocomplete="email">
+                            <!-- Tambahkan name="email" -->
+                            <input type="email" class="form-input" id="email" name="email" placeholder="Masukkan Email Anda" autocomplete="email" value="<?= htmlspecialchars($_SESSION['old_input']['email'] ?? '') ?>">
                         </div>
                         <span class="form-error" id="emailError"></span>
                     </div>
@@ -66,7 +79,8 @@
                             <label class="form-label" for="regPassword">Password</label>
                             <div class="input-wrapper">
                                 <i class="fa-solid fa-lock input-icon"></i>
-                                <input type="password" class="form-input" id="regPassword" placeholder="8 Karakter!" autocomplete="new-password">
+                                <!-- Tambahkan name="password" -->
+                                <input type="password" class="form-input" id="regPassword" name="password" placeholder="8 Karakter!" autocomplete="new-password">
                             </div>
                             <span class="form-error" id="regPasswordError"></span>
                         </div>
@@ -74,19 +88,12 @@
                             <label class="form-label" for="confirmPassword">Confirm</label>
                             <div class="input-wrapper">
                                 <i class="fa-solid fa-lock input-icon"></i>
-                                <input type="password" class="form-input" id="confirmPassword" placeholder="Mohon Ulangi" autocomplete="new-password">
+                                <!-- Tambahkan name="confirm_password" -->
+                                <input type="password" class="form-input" id="confirmPassword" name="confirm_password" placeholder="Mohon Ulangi" autocomplete="new-password">
                             </div>
                             <span class="form-error" id="confirmPasswordError"></span>
                         </div>
                     </div>
-
-                    <!-- <div class="form-options" style="margin-bottom: 22px;">
-                        <label class="checkbox-label">
-                            <input type="checkbox" id="agreeTerms">
-                            <span class="checkmark"></span>
-                            I agree to the Terms & Conditions
-                        </label>
-                    </div> -->
 
                     <button type="submit" class="btn-login" id="registerBtn">
                         <span class="btn-text">Buat Akun Saya!</span>
@@ -94,7 +101,9 @@
                     </button>
                 </form>
 
-                <p class="register-text" style="margin-top: 24px;">Sudah Punya Akun? <a href="./V_login.php" class="register-link" id="loginLink">Ayo Masuk!</a></p>
+                <?php unset($_SESSION['old_input']); // Hapus old input setelah dipakai ?>
+
+                <p class="register-text" style="margin-top: 24px;">Sudah Punya Akun? <a href="/login" class="register-link" id="loginLink">Ayo Masuk!</a></p>
             </div>
         </div>
     </div>
