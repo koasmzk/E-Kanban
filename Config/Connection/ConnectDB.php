@@ -8,7 +8,8 @@ class ConnectDB
     public static function getInstance(): PDO
     {
         if (self::$instance === null) {
-            $envPath = dirname(__DIR__, 3) . '../../.env';
+            // Naik 2 level dari Config/Connection/ ke root
+            $envPath = dirname(__DIR__, 2) . '../../.env';
 
             if (!file_exists($envPath)) {
                 throw new RuntimeException('.env file not found at: ' . $envPath);
@@ -25,25 +26,17 @@ class ConnectDB
                 }
             }
 
-            // ── VALIDASI KETAT: Wajib ada di .env, jika tidak ada -> STOP! ──
             $requiredKeys = ['DB_HOST', 'DB_PORT', 'DB_NAME', 'DB_USER', 'DB_PASS'];
             foreach ($requiredKeys as $key) {
-                if (!isset($env[$key]) || $env[$key] === '') {
-                    throw new RuntimeException("Kredensial {$key} tidak ditemukan atau kosong di file .env");
+                if (!array_key_exists($key, $env)) {
+                    throw new RuntimeException("Kredensial {$key} tidak ditemukan di file .env");
                 }
             }
 
-            // ── Ambil murni dari .env tanpa fallback ──
-            $host = $env['DB_HOST'];
-            $port = $env['DB_PORT'];
-            $db   = $env['DB_NAME'];
-            $user = $env['DB_USER'];
-            $pass = $env['DB_PASS'];
-
-            $dsn = "mysql:host={$host};port={$port};dbname={$db};charset=utf8mb4";
+            $dsn = "mysql:host={$env['DB_HOST']};port={$env['DB_PORT']};dbname={$env['DB_NAME']};charset=utf8mb4";
 
             try {
-                self::$instance = new PDO($dsn, $user, $pass, [
+                self::$instance = new PDO($dsn, $env['DB_USER'], $env['DB_PASS'], [
                     PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
                     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
                     PDO::ATTR_EMULATE_PREPARES   => false,

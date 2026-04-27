@@ -30,39 +30,52 @@ document.querySelectorAll('.toggle-password').forEach(btn => {
 });
 
 // === Validasi ===
-registerForm.addEventListener('submit', (e) => {
-    e.preventDefault(); let valid = true;
-    ['fullname', 'regUsername', 'email', 'regPassword', 'confirmPassword'].forEach(clearError);
-    const fullname = document.getElementById('fullname').value.trim();
-    const username = document.getElementById('regUsername').value.trim();
-    const email = document.getElementById('email').value.trim();
-    const password = document.getElementById('regPassword').value;
-    const confirm = document.getElementById('confirmPassword').value;
-    const terms = document.getElementById('agreeTerms').checked;
-    if (!fullname) { showError('fullname', 'Required'); valid = false; }
-    if (!username || username.length < 3) { showError('regUsername', 'Min 3 chars'); valid = false; }
-    if (!email || !/^\S+@\S+\.\S+$/.test(email)) { showError('email', 'Invalid email'); valid = false; }
-    if (!password || password.length < 8) { showError('regPassword', 'Min 8 chars'); valid = false; }
-    if (password !== confirm) { showError('confirmPassword', 'Not match'); valid = false; }
-    if (!terms) { showToast('error', 'You must agree to the terms'); valid = false; }
-    if (!valid) return;
-    registerBtn.classList.add('loading'); registerBtn.disabled = true;
-    setTimeout(() => {
-        registerBtn.classList.remove('loading'); registerBtn.disabled = false;
-        showToast('success', 'Account created! Redirecting to login...');
-        setTimeout(() => triggerTransitionToLogin(), 1500);
-    }, 2000);
-});
+if (registerForm) {
+    registerForm.addEventListener('submit', (e) => {
+        let valid = true;
+        
+        // Bersihkan error sebelumnya
+        ['fullname', 'regUsername', 'email', 'regPassword', 'confirmPassword'].forEach(clearError);
+        
+        const fullname = document.getElementById('fullname').value.trim();
+        const username = document.getElementById('regUsername').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('regPassword').value;
+        const confirm = document.getElementById('confirmPassword').value;
+
+        // Validasi setiap field
+        if (!fullname) { showError('fullname', 'Required'); valid = false; }
+        if (!username || username.length < 3) { showError('regUsername', 'Min 3 chars'); valid = false; }
+        if (!email || !/^\S+@\S+\.\S+$/.test(email)) { showError('email', 'Invalid email'); valid = false; }
+        if (!password || password.length < 8) { showError('regPassword', 'Min 8 chars'); valid = false; }
+        if (password !== confirm) { showError('confirmPassword', 'Not match'); valid = false; }
+
+        // ── LOGIJA KRUSIAL ──
+        // Jika validasi gagal, cegah form kirim data (hentikan di sini)
+        if (!valid) {
+            e.preventDefault(); 
+            return;
+        }
+
+        // Jika validasi BERHASIL, jangan tahan form!
+        // Biarkan form mengirim data secara natural ke action="/register/store" di PHP
+        registerBtn.classList.add('loading'); 
+        registerBtn.disabled = true;
+    });
+}
 
 function showError(field, message) { const input = document.getElementById(field); const errorEl = document.getElementById(field + 'Error'); if (input) input.classList.add('error'); if (errorEl) errorEl.textContent = message; }
 function clearError(field) { const input = document.getElementById(field); const errorEl = document.getElementById(field + 'Error'); if (input) input.classList.remove('error'); if (errorEl) errorEl.textContent = ''; }
 document.querySelectorAll('.form-input').forEach(input => { input.addEventListener('input', () => clearError(input.id)); });
 
 // === Transisi ke Login ===
-loginLink.addEventListener('click', (e) => { e.preventDefault(); triggerTransitionToLogin(); });
+if (loginLink) {
+    loginLink.addEventListener('click', (e) => { e.preventDefault(); triggerTransitionToLogin(); });
+}
 
 function triggerTransitionToLogin() {
-    const targetUrl = './V_login.php';
+    // Ubah nanti ke '/login' jika route sudah ada
+    const targetUrl = '/login'; 
     if (!mainCard) { window.location.href = targetUrl; return; }
     localStorage.setItem('taskflow_transition', 'from_register');
     mainCard.style.animation = '';
@@ -76,7 +89,8 @@ function triggerTransitionToLogin() {
 
 // === Toast ===
 function showToast(type, message) {
-    const container = document.getElementById('toastContainer'); const toast = document.createElement('div'); toast.className = `toast ${type}`;
+    const container = document.getElementById('toastContainer'); if(!container) return;
+    const toast = document.createElement('div'); toast.className = `toast ${type}`;
     const icons = { success: 'fa-solid fa-circle-check', error: 'fa-solid fa-circle-xmark', info: 'fa-solid fa-circle-info' };
     toast.innerHTML = `<i class="${icons[type]}"></i><span>${message}</span>`; container.appendChild(toast);
     setTimeout(() => { if (toast.parentNode) toast.parentNode.removeChild(toast); }, 3000);
