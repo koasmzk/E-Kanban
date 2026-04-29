@@ -1153,3 +1153,98 @@ body.light-mode .theme-toggle .fa-moon {
         transition-duration: 0.01ms !important;
     }
 }
+
+/* === User Dropdown Menu === */
+.user-profile {
+    position: relative; /* Penting agar dropdown menempel di profil */
+}
+
+.user-dropdown {
+    position: absolute;
+    bottom: calc(100% + 8px); /* ✮ Ubah dari top ke bottom agar muncul ke ATAS */
+    right: 0;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    box-shadow: 0 8px 24px var(--shadow-hover);
+    min-width: 160px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px); /* ✮ Ubah jadi positif 10px untuk animasi dari bawah ke atas */
+    transition: all 0.2s ease;
+    z-index: 20;
+    overflow: hidden;
+}
+
+.user-dropdown.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0); /* Kembali ke posisi normal */
+}
+
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--fg-muted);
+    text-decoration: none;
+    transition: background 0.2s ease, color 0.2s ease;
+    cursor: pointer;
+    border: none;
+    background: none;
+    width: 100%;
+    font-family: 'DM Sans', sans-serif;
+}
+
+.dropdown-item:hover {
+    background: var(--bg-card-hover);
+    color: var(--fg);
+}
+
+.dropdown-item.logout-item {
+    color: var(--red);
+    border-top: 1px solid var(--border);
+}
+
+.dropdown-item.logout-item:hover {
+    background: var(--red-bg);
+    color: var(--red);
+}
+
+/* Sembunyikan dropdown jika sidebar dalam keadaan collapsed */
+.sidebar.collapsed .user-dropdown {
+    display: none;
+}
+
+.user-more-icon {
+    opacity: 1;
+    transition: opacity 0.2s ease, background 0.2s ease, color 0.2s ease;
+    
+    /* ✮ Perbesar Area Klik ✮ */
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    cursor: pointer;
+    
+    /* Pertahankan ukuran ikon */
+    font-size: 14px;
+    color: var(--fg-dim);
+}
+
+/* Tambahkan efek hover agar user tahu itu bisa diklik */
+.user-more-icon:hover {
+    background: var(--bg-deep);
+    color: var(--fg);
+}
+
+.sidebar.collapsed .user-more-icon {
+    opacity: 0;
+    width: 0;
+    overflow: hidden;
+}

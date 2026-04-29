@@ -83,16 +83,24 @@
                     <span class="tooltip">Settings</span>
                 </div>
             </div>
-
             <div class="sidebar-bottom">
                 <div class="user-profile">
                     <div class="user-avatar"><?= strtoupper(substr($_SESSION['username'] ?? 'U', 0, 1)) ?></div>
                     <div class="user-info">
-                        <!-- ✮ BONUS: Tampilkan Username dari Session Login ✮ -->
                         <div class="user-name"><?= htmlspecialchars($_SESSION['username'] ?? 'User') ?></div>
                         <div class="user-role"><?= htmlspecialchars($_SESSION['role'] ?? 'Role') ?></div>
                     </div>
-                    <i class="fa-solid fa-ellipsis-vertical user-more-icon" style="color: var(--fg-dim); font-size: 14px;"></i>
+                    <i class="fa-solid fa-ellipsis-vertical user-more-icon" id="userMoreIcon"></i>
+                    
+                    <!-- ✮ Dropdown Menu ✮ -->
+                    <div class="user-dropdown" id="userDropdown">
+                        <a href="#" class="dropdown-item">
+                            <i class="fa-regular fa-user"></i> My Profile
+                        </a>
+                        <a href="<?= $GLOBALS['baseURL'] ?>/logout" class="dropdown-item logout-item">
+                            <i class="fa-solid fa-right-from-bracket"></i> Logout
+                        </a>
+                    </div>
                 </div>
             </div>
         </aside>

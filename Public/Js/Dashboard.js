@@ -431,6 +431,23 @@ function updateGreeting() {
     h1.innerHTML = `${greeting}, <span>Alex</span>`;
 }
 
+// === User Dropdown Menu ===
+const userMoreIcon = document.getElementById('userMoreIcon');
+const userDropdown = document.getElementById('userDropdown');
+
+if (userMoreIcon && userDropdown) {
+    userMoreIcon.addEventListener('click', (e) => {
+        e.stopPropagation(); // Cegah klik menyebar ke document
+        userDropdown.classList.toggle('active');
+    });
+
+    // Tutup dropdown jika klik di area manapun di luar dropdown
+    document.addEventListener('click', (e) => {
+        if (!userDropdown.contains(e.target) && !userMoreIcon.contains(e.target)) {
+            userDropdown.classList.remove('active');
+        }
+    });
+}
 // === Inisialisasi ===
 loadTheme();
 loadSidebarState();

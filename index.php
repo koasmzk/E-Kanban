@@ -53,6 +53,10 @@ switch ($uri) {
         $dashboardController->index();
         break;
 
+    case '/logout': // ✮ Baru: Menangani logout
+        $loginController->logout();
+        break;
+        
     default:
         http_response_code(404);
         echo "404 - Page Not Found";
