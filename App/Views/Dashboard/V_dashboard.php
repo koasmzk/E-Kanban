@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TaskFlow Dashboard</title>
+    <title>E-Kanban Dashboard</title>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <!-- Link ke file CSS eksternal -->
-    <link rel="stylesheet" href="../../../Public/Css/Dashboard.css">
+    <!-- ✮ GANTI PATH CSS PAKAI BASE URL ✮ -->
+    <link rel="stylesheet" href="<?= $GLOBALS['baseURL'] ?>/Public/Css/Dashboard.css?v=<?= time() ?>">
 </head>
 <body>
     <!-- Flash overlay untuk transisi tema -->
@@ -23,7 +23,7 @@
 
             <div class="sidebar-logo">
                 <div class="logo-icon"><i class="fa-solid fa-bolt"></i></div>
-                <div class="logo-text">TaskFlow</div>
+                <div class="logo-text">E-Kanban</div>
             </div>
 
             <div class="sidebar-section">
@@ -86,10 +86,11 @@
 
             <div class="sidebar-bottom">
                 <div class="user-profile">
-                    <div class="user-avatar">A</div>
+                    <div class="user-avatar"><?= strtoupper(substr($_SESSION['username'] ?? 'U', 0, 1)) ?></div>
                     <div class="user-info">
-                        <div class="user-name">Alex Johnson</div>
-                        <div class="user-role">Product Manager</div>
+                        <!-- ✮ BONUS: Tampilkan Username dari Session Login ✮ -->
+                        <div class="user-name"><?= htmlspecialchars($_SESSION['username'] ?? 'User') ?></div>
+                        <div class="user-role"><?= htmlspecialchars($_SESSION['role'] ?? 'Role') ?></div>
                     </div>
                     <i class="fa-solid fa-ellipsis-vertical user-more-icon" style="color: var(--fg-dim); font-size: 14px;"></i>
                 </div>
@@ -101,7 +102,8 @@
             <!-- Header -->
             <header class="header">
                 <div class="header-left">
-                    <h1>Good morning, <span>Alex</span></h1>
+                    <!-- ✮ BONUS: Greet User dari Session ✮ -->
+                    <h1>Good morning, <span><?= htmlspecialchars($_SESSION['username'] ?? 'User') ?></span></h1>
                     <p>Here's what's happening with your projects today.</p>
                 </div>
                 <div class="header-right">
@@ -261,7 +263,7 @@
     <!-- Toast Container -->
     <div class="toast-container" id="toastContainer"></div>
 
-    <!-- Link ke file JS eksternal -->
-    <script src="../../../Public/Js/Dashboard.js"></script>
+    <!-- ✮ GANTI PATH JS PAKAI BASE URL ✮ -->
+    <script src="<?= $GLOBALS['baseURL'] ?>/Public/Js/Dashboard.js?v=<?= time() ?>"></script>
 </body>
 </html>

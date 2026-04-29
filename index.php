@@ -14,11 +14,14 @@ if ($baseURL !== '' && str_starts_with($uri, $baseURL)) {
 
  $GLOBALS['baseURL'] = $baseURL;
 
+// ── Panggil Semua Controller ──
 require_once ROOT . '/App/Controllers/Auth/C_register.php';
-require_once ROOT . '/App/Controllers/Auth/C_login.php'; // ✮ Tambahkan ini
+require_once ROOT . '/App/Controllers/Auth/C_login.php';
+require_once ROOT . '/App/Controllers/Dashboard/C_dashboard.php'; // ✮ Baru
 
  $registerController = new C_register();
- $loginController = new C_login(); // ✮ Tambahkan ini
+ $loginController = new C_login();
+ $dashboardController = new C_dashboard(); // ✮ Baru
 
 switch ($uri) {
     case '/':
@@ -38,8 +41,16 @@ switch ($uri) {
         $registerController->store();
         break;
 
-    case '/login': // ✮ Tambahkan case ini
+    case '/login':
         $loginController->index();
+        break;
+
+    case '/login/auth': // ✮ Baru: Menangani submit form login
+        $loginController->auth();
+        break;
+
+    case '/dashboard': // ✮ Baru: Menampilkan halaman dashboard
+        $dashboardController->index();
         break;
 
     default:
