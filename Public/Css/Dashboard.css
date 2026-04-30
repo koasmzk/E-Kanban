@@ -1248,3 +1248,19 @@ body.light-mode .theme-toggle .fa-moon {
     width: 0;
     overflow: hidden;
 }
+
+/* ══════ Toggle Ikon saat Collapsed/Expanded ══════ */
+
+/* ── Logo Icon ── */
+.logo-icon-expanded { display: flex; }
+.logo-icon-collapsed { display: none; }
+
+.sidebar.collapsed .logo-icon-expanded { display: none; }
+.sidebar.collapsed .logo-icon-collapsed { display: flex; }
+
+/* ── Toggle Button Icon ── */
+.toggle-icon-expanded { display: flex; }
+.toggle-icon-collapsed { display: none; }
+
+.sidebar.collapsed .toggle-icon-expanded { display: none; }
+.sidebar.collapsed .toggle-icon-collapsed { display: flex; }

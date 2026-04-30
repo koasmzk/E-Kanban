@@ -18,11 +18,15 @@
         <aside class="sidebar" id="sidebar">
             <!-- Tombol collapse -->
             <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar">
-                <i class="fa-solid fa-chevron-left"></i>
+                <i class="fa-solid fa-chevron-left toggle-icon-expanded"></i>
+                <i class="fa-solid fa-bars toggle-icon-collapsed"></i>
             </button>
 
             <div class="sidebar-logo">
-                <div class="logo-icon"><i class="fa-solid fa-bolt"></i></div>
+                <div class="logo-icon">
+                    <i class="fa-solid fa-bolt logo-icon-expanded"></i>
+                    <i class="fa-solid fa-tasks logo-icon-collapsed"></i>
+                </div>
                 <div class="logo-text">E-Kanban</div>
             </div>
 
