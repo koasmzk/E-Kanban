@@ -6,28 +6,21 @@
     <title>E-Kanban Dashboard</title>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <!-- ✮ GANTI PATH CSS PAKAI BASE URL ✮ -->
     <link rel="stylesheet" href="<?= $GLOBALS['baseURL'] ?>/Public/Css/Dashboard.css?v=<?= time() ?>">
 </head>
 <body>
-    <!-- Flash overlay untuk transisi tema -->
     <div class="theme-flash" id="themeFlash"></div>
 
     <div class="app-layout">
-        <!-- Sidebar -->
         <aside class="sidebar" id="sidebar">
-            <!-- Tombol collapse -->
-            <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar">
-                <i class="fa-solid fa-chevron-left toggle-icon-expanded"></i>
-                <i class="fa-solid fa-bars toggle-icon-collapsed"></i>
-            </button>
-
             <div class="sidebar-logo">
                 <div class="logo-icon">
-                    <i class="fa-solid fa-bolt logo-icon-expanded"></i>
-                    <i class="fa-solid fa-tasks logo-icon-collapsed"></i>
+                    <i class="fa-solid fa-list-check"></i>
                 </div>
                 <div class="logo-text">E-Kanban</div>
+                <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </button>
             </div>
 
             <div class="sidebar-section">
@@ -87,6 +80,7 @@
                     <span class="tooltip">Settings</span>
                 </div>
             </div>
+
             <div class="sidebar-bottom">
                 <div class="user-profile">
                     <div class="user-avatar"><?= strtoupper(substr($_SESSION['username'] ?? 'U', 0, 1)) ?></div>
@@ -95,8 +89,6 @@
                         <div class="user-role"><?= htmlspecialchars($_SESSION['role'] ?? 'Role') ?></div>
                     </div>
                     <i class="fa-solid fa-ellipsis-vertical user-more-icon" id="userMoreIcon"></i>
-                    
-                    <!-- ✮ Dropdown Menu ✮ -->
                     <div class="user-dropdown" id="userDropdown">
                         <a href="#" class="dropdown-item">
                             <i class="fa-regular fa-user"></i> My Profile
@@ -109,12 +101,9 @@
             </div>
         </aside>
 
-        <!-- Main Content -->
         <main class="main-content">
-            <!-- Header -->
             <header class="header">
                 <div class="header-left">
-                    <!-- ✮ BONUS: Greet User dari Session ✮ -->
                     <h1>Good morning, <span><?= htmlspecialchars($_SESSION['username'] ?? 'User') ?></span></h1>
                     <p>Here's what's happening with your projects today.</p>
                 </div>
@@ -123,7 +112,6 @@
                         <i class="fa-solid fa-magnifying-glass"></i>
                         <input type="text" placeholder="Search tasks..." id="searchInput">
                     </div>
-                    <!-- Tombol toggle tema -->
                     <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
                         <i class="fa-solid fa-moon"></i>
                         <i class="fa-solid fa-sun"></i>
@@ -139,7 +127,6 @@
                 </div>
             </header>
 
-            <!-- Stats Cards -->
             <section class="stats-grid" aria-label="Task Statistics">
                 <div class="stat-card">
                     <div class="stat-icon"><i class="fa-solid fa-list-check"></i></div>
@@ -167,7 +154,6 @@
                 </div>
             </section>
 
-            <!-- Kanban Board -->
             <section aria-label="Task Board">
                 <div class="board-header">
                     <h2 class="board-title">Task Board</h2>
@@ -219,7 +205,6 @@
         </main>
     </div>
 
-    <!-- Modal Tambah Tugas -->
     <div class="modal-overlay" id="modalOverlay">
         <div class="modal" role="dialog" aria-modal="true" aria-label="Add new task">
             <h3 class="modal-title">Create New Task</h3>
@@ -272,10 +257,8 @@
         </div>
     </div>
 
-    <!-- Toast Container -->
     <div class="toast-container" id="toastContainer"></div>
 
-    <!-- ✮ GANTI PATH JS PAKAI BASE URL ✮ -->
     <script src="<?= $GLOBALS['baseURL'] ?>/Public/Js/Dashboard.js?v=<?= time() ?>"></script>
 </body>
 </html>

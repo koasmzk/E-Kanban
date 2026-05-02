@@ -1,4 +1,3 @@
-// === Data Tugas ===
 const tasks = [
     {
         id: 1,
@@ -80,7 +79,6 @@ let nextId = 6;
 let currentFilter = 'all';
 let draggedCard = null;
 
-// === Referensi DOM ===
 const sidebar = document.getElementById('sidebar');
 const sidebarToggle = document.getElementById('sidebarToggle');
 const themeToggle = document.getElementById('themeToggle');
@@ -90,7 +88,6 @@ const addTaskBtn = document.getElementById('addTaskBtn');
 const modalCancel = document.getElementById('modalCancel');
 const modalSubmit = document.getElementById('modalSubmit');
 
-// === Render Semua Tugas ===
 function renderTasks() {
     const statuses = ['backlog', 'todo', 'inprogress'];
 
@@ -125,7 +122,6 @@ function renderTasks() {
     updateStats();
 }
 
-// === Buat Kartu Tugas ===
 function createTaskCard(task) {
     const card = document.createElement('div');
     card.className = 'task-card';
@@ -183,7 +179,6 @@ function createTaskCard(task) {
     return card;
 }
 
-// === Update Statistik ===
 function updateStats() {
     const total = tasks.length;
     const inProgress = tasks.filter(t => t.status === 'inprogress').length;
@@ -210,7 +205,6 @@ function animateValue(elementId, target) {
     }, 80);
 }
 
-// === Drag & Drop ===
 function handleDragStart(e) {
     draggedCard = this;
     this.classList.add('dragging');
@@ -224,7 +218,6 @@ function handleDragEnd() {
     document.querySelectorAll('.kanban-column').forEach(col => col.classList.remove('drag-over'));
 }
 
-// Setup drop zone pada setiap kolom
 document.querySelectorAll('.kanban-column').forEach(column => {
     column.addEventListener('dragover', e => {
         e.preventDefault();
@@ -259,7 +252,6 @@ function getStatusLabel(status) {
     return labels[status] || status;
 }
 
-// === Filter Board ===
 document.querySelectorAll('.filter-btn').forEach(btn => {
     btn.addEventListener('click', () => {
         document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
@@ -269,12 +261,10 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
     });
 });
 
-// === Pencarian ===
 document.getElementById('searchInput').addEventListener('input', () => {
     renderTasks();
 });
 
-// === Navigasi Sidebar ===
 document.querySelectorAll('.nav-item').forEach(item => {
     item.addEventListener('click', () => {
         document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
@@ -283,7 +273,6 @@ document.querySelectorAll('.nav-item').forEach(item => {
     });
 });
 
-// === Sidebar Collapse/Expand ===
 sidebarToggle.addEventListener('click', () => {
     sidebar.classList.toggle('collapsed');
     const isCollapsed = sidebar.classList.contains('collapsed');
@@ -298,9 +287,7 @@ function loadSidebarState() {
     }
 }
 
-// === Theme Toggle ===
 themeToggle.addEventListener('click', () => {
-    // Efek flash halus
     themeFlash.classList.add('active');
     setTimeout(() => themeFlash.classList.remove('active'), 200);
 
@@ -317,7 +304,6 @@ function loadTheme() {
     }
 }
 
-// === Modal ===
 addTaskBtn.addEventListener('click', () => {
     openModal('todo');
 });
@@ -352,7 +338,6 @@ document.addEventListener('keydown', e => {
     if (e.key === 'Escape') closeModal();
 });
 
-// Submit tugas baru
 modalSubmit.addEventListener('click', () => {
     const title = document.getElementById('taskTitle').value.trim();
     const desc = document.getElementById('taskDesc').value.trim();
@@ -393,12 +378,10 @@ modalSubmit.addEventListener('click', () => {
     showToast('success', `Task "${title}" created successfully`);
 });
 
-// === Notifikasi ===
 document.getElementById('notifBtn').addEventListener('click', () => {
     showToast('info', '2 overdue tasks need your attention');
 });
 
-// === Toast ===
 function showToast(type, message) {
     const container = document.getElementById('toastContainer');
     const toast = document.createElement('div');
@@ -418,7 +401,6 @@ function showToast(type, message) {
     }, 3000);
 }
 
-// === Greeting Dinamis ===
 function updateGreeting() {
     const hour = new Date().getHours();
     const h1 = document.querySelector('.header-left h1');
@@ -431,24 +413,22 @@ function updateGreeting() {
     h1.innerHTML = `${greeting}, <span>Alex</span>`;
 }
 
-// === User Dropdown Menu ===
 const userMoreIcon = document.getElementById('userMoreIcon');
 const userDropdown = document.getElementById('userDropdown');
 
 if (userMoreIcon && userDropdown) {
     userMoreIcon.addEventListener('click', (e) => {
-        e.stopPropagation(); // Cegah klik menyebar ke document
+        e.stopPropagation();
         userDropdown.classList.toggle('active');
     });
 
-    // Tutup dropdown jika klik di area manapun di luar dropdown
     document.addEventListener('click', (e) => {
         if (!userDropdown.contains(e.target) && !userMoreIcon.contains(e.target)) {
             userDropdown.classList.remove('active');
         }
     });
 }
-// === Inisialisasi ===
+
 loadTheme();
 loadSidebarState();
 updateGreeting();
