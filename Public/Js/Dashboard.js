@@ -427,7 +427,7 @@ if (userMoreIcon && userDropdown) {
 
     document.addEventListener('click', (e) => {
         if (!userDropdown.contains(e.target) && !userMoreIcon.contains(e.target)) {
-            userDropdown.remove('active');
+            userDropdown.classList.remove('active');
         }
     });
 }
