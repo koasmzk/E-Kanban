@@ -85,11 +85,16 @@ body {
     position: relative;
     z-index: 10;
     transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    overflow: hidden;
+    overflow: visible; /* bukan hidden agar toggle tidak ter-clip */
 }
 
 .sidebar.collapsed {
     width: var(--sidebar-collapsed);
+}
+
+/* clip konten nav agar tidak overflow saat collapse, tapi bukan sidebar itu sendiri */
+.sidebar-section {
+    overflow: hidden;
 }
 
 .sidebar::after {
@@ -101,6 +106,7 @@ body {
     height: 100%;
     background: linear-gradient(to bottom, var(--accent), transparent 40%, transparent 60%, var(--accent));
     opacity: 0.3;
+    pointer-events: none;
 }
 
 /* ── Logo ── */
@@ -112,6 +118,7 @@ body {
     border-bottom: 1px solid var(--border);
     min-height: 68px;
     overflow: hidden;
+    position: relative;
 }
 
 .logo-icon {
@@ -140,7 +147,7 @@ body {
     min-width: 0;
     overflow: hidden;
     opacity: 1;
-    transition: opacity 0.2s ease;
+    transition: opacity 0.15s ease;
 }
 
 .sidebar.collapsed .logo-text {
@@ -148,23 +155,26 @@ body {
     pointer-events: none;
 }
 
-/* ── Toggle Button ── */
+/* ── Toggle Button — absolute agar tidak ter-clip sidebar ── */
 .sidebar-toggle {
+    position: absolute;
+    top: 18px;
+    right: -14px;
+    z-index: 20;
     display: flex;
     align-items: center;
     justify-content: center;
     width: 28px;
     height: 28px;
-    min-width: 28px;
-    background: var(--bg-deep);
+    background: var(--bg-card);
     border: 1px solid var(--border);
-    border-radius: 8px;
+    border-radius: 50%;
     cursor: pointer;
     color: var(--fg-muted);
-    font-size: 11px;
+    font-size: 10px;
+    box-shadow: 0 2px 8px var(--shadow-card);
     transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
     flex-shrink: 0;
-    margin-left: auto;
 }
 
 .sidebar-toggle:hover {
@@ -267,15 +277,17 @@ body {
 
 .nav-item-text, .nav-badge {
     opacity: 1;
-    transition: opacity 0.2s ease;
+    transition: opacity 0.15s ease, max-width 0.3s ease;
+    max-width: 200px;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 .sidebar.collapsed .nav-item-text,
 .sidebar.collapsed .nav-badge {
     opacity: 0;
+    max-width: 0;
     pointer-events: none;
-    width: 0;
-    overflow: hidden;
 }
 
 .nav-badge {
@@ -315,29 +327,19 @@ body {
 /* ── Sidebar Bottom ── */
 .sidebar-bottom {
     margin-top: auto;
-    padding: 16px;
+    padding: 12px;
     border-top: 1px solid var(--border);
-    transition: padding 0.3s ease;
-}
-
-.sidebar.collapsed .sidebar-bottom {
-    padding: 12px 10px;
 }
 
 .user-profile {
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 10px 12px;
+    gap: 10px;
+    padding: 8px;
     border-radius: var(--radius-sm);
     cursor: pointer;
     transition: background 0.2s ease;
     position: relative;
-}
-
-.sidebar.collapsed .user-profile {
-    justify-content: center;
-    padding: 10px;
 }
 
 .user-profile:hover {
@@ -345,9 +347,9 @@ body {
 }
 
 .user-avatar {
-    width: 36px;
-    height: 36px;
-    min-width: 36px;
+    width: 34px;
+    height: 34px;
+    min-width: 34px;
     border-radius: 10px;
     background: linear-gradient(135deg, #ff6b6b, #ffa07a);
     display: flex;
@@ -356,44 +358,56 @@ body {
     font-size: 14px;
     font-weight: 700;
     color: white;
+    flex-shrink: 0;
 }
 
 .user-info {
     flex: 1;
-    opacity: 1;
-    transition: opacity 0.2s ease;
+    min-width: 0;
     white-space: nowrap;
+    overflow: hidden;
+    opacity: 1;
+    transition: opacity 0.15s ease, max-width 0.3s ease;
+    max-width: 200px;
 }
 
 .sidebar.collapsed .user-info {
     opacity: 0;
-    width: 0;
-    overflow: hidden;
+    max-width: 0;
+    pointer-events: none;
 }
 
 .user-name {
     font-size: 13px;
     font-weight: 600;
     color: var(--fg);
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .user-role {
     font-size: 11px;
     color: var(--fg-dim);
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .user-more-icon {
-    width: 28px;
-    height: 28px;
+    width: 26px;
+    height: 26px;
+    min-width: 26px;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 6px;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 13px;
     color: var(--fg-dim);
+    flex-shrink: 0;
     opacity: 1;
-    transition: opacity 0.2s ease, background 0.2s ease, color 0.2s ease;
+    transition: opacity 0.15s ease, max-width 0.3s ease, background 0.2s ease, color 0.2s ease;
+    max-width: 26px;
+    overflow: hidden;
 }
 
 .user-more-icon:hover {
@@ -403,8 +417,8 @@ body {
 
 .sidebar.collapsed .user-more-icon {
     opacity: 0;
-    width: 0;
-    overflow: hidden;
+    max-width: 0;
+    pointer-events: none;
 }
 
 /* ── User Dropdown ── */

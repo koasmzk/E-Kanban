@@ -18,10 +18,10 @@
                     <i class="fa-solid fa-list-check"></i>
                 </div>
                 <div class="logo-text">E-Kanban</div>
-                <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar">
-                    <i class="fa-solid fa-chevron-left"></i>
-                </button>
             </div>
+            <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar">
+                <i class="fa-solid fa-chevron-left"></i>
+            </button>
 
             <div class="sidebar-section">
                 <div class="sidebar-section-title">Menu</div>
