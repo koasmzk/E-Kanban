@@ -404,13 +404,14 @@ function showToast(type, message) {
 function updateGreeting() {
     const hour = new Date().getHours();
     const h1 = document.querySelector('.header-left h1');
+    const username = h1.dataset.username || 'User';
     let greeting;
 
     if (hour < 12) greeting = 'Good morning';
     else if (hour < 18) greeting = 'Good afternoon';
     else greeting = 'Good evening';
 
-    h1.innerHTML = `${greeting}, <span>Alex</span>`;
+    h1.innerHTML = `${greeting}, <span>${username}</span>`;
 }
 
 const userMoreIcon = document.getElementById('userMoreIcon');

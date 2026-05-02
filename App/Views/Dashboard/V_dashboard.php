@@ -49,21 +49,21 @@
             </div>
 
             <div class="sidebar-section">
-                <div class="sidebar-section-title">Projects</div>
-                <div class="nav-item" data-page="marketing">
-                    <i class="fa-solid fa-bullhorn"></i>
-                    <span class="nav-item-text">Marketing</span>
-                    <span class="tooltip">Marketing</span>
+                <div class="sidebar-section-title">Master Data</div>
+                <div class="nav-item" data-page="data-part">
+                    <i class="fa-solid fa-boxes-stacked"></i>
+                    <span class="nav-item-text">Data Part</span>
+                    <span class="tooltip">Data Part</span>
                 </div>
-                <div class="nav-item" data-page="mobile-app">
-                    <i class="fa-solid fa-mobile-screen"></i>
-                    <span class="nav-item-text">Mobile App</span>
-                    <span class="tooltip">Mobile App</span>
+                <div class="nav-item" data-page="line-aktif">
+                    <i class="fa-solid fa-diagram-project"></i>
+                    <span class="nav-item-text">Line Aktif</span>
+                    <span class="tooltip">Line Aktif</span>
                 </div>
-                <div class="nav-item" data-page="web-design">
-                    <i class="fa-solid fa-palette"></i>
-                    <span class="nav-item-text">Web Design</span>
-                    <span class="tooltip">Web Design</span>
+                <div class="nav-item" data-page="history">
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                    <span class="nav-item-text">History</span>
+                    <span class="tooltip">History</span>
                 </div>
             </div>
 
@@ -104,7 +104,7 @@
         <main class="main-content">
             <header class="header">
                 <div class="header-left">
-                    <h1>Good morning, <span><?= htmlspecialchars($_SESSION['username'] ?? 'User') ?></span></h1>
+                    <h1 data-username="<?= htmlspecialchars($_SESSION['username'] ?? 'User') ?>">Good morning, <span><?= htmlspecialchars($_SESSION['username'] ?? 'User') ?></span></h1>
                     <p>Here's what's happening with your projects today.</p>
                 </div>
                 <div class="header-right">
