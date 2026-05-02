@@ -92,7 +92,6 @@ body {
     width: var(--sidebar-collapsed);
 }
 
-/* clip konten nav agar tidak overflow saat collapse, tapi bukan sidebar itu sendiri */
 .sidebar-section {
     overflow: hidden;
 }
@@ -155,7 +154,7 @@ body {
     pointer-events: none;
 }
 
-/* ── Toggle Button — absolute agar tidak ter-clip sidebar ── */
+/* ── Toggle Button ── */
 .sidebar-toggle {
     position: absolute;
     top: 18px;
@@ -812,8 +811,8 @@ body.light-mode .theme-toggle .fa-moon {
 
 .kanban-board {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
+    grid-template-columns: repeat(4, 1fr); /* Diubah menjadi 4 kolom */
+    gap: 14px; /* Sedikit diperkecil gap-nya */
     min-height: 400px;
 }
 
@@ -821,7 +820,7 @@ body.light-mode .theme-toggle .fa-moon {
     background: var(--bg-deep);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    padding: 16px;
+    padding: 12px; /* Padding diperkecil agar muat */
     min-height: 300px;
     transition: background 0.25s ease, border-color 0.25s ease;
 }
@@ -835,41 +834,43 @@ body.light-mode .theme-toggle .fa-moon {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 16px;
-    padding-bottom: 12px;
+    margin-bottom: 12px;
+    padding-bottom: 10px;
     border-bottom: 1px solid var(--border);
 }
 
 .column-header-left {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
 }
 
 .column-dot {
-    width: 10px;
-    height: 10px;
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
 }
 
-.column-backlog .column-dot { background: var(--fg-dim); }
-.column-todo .column-dot { background: var(--blue); }
-.column-inprogress .column-dot { background: var(--orange); }
+/* Warna dot disesuaikan untuk status Kanban */
+.column-diterima .column-dot { background: var(--blue); }
+.column-diproses .column-dot { background: var(--orange); }
+.column-discan .column-dot { background: var(--accent); }
+.column-diantar .column-dot { background: var(--green); }
 
-.column-name { font-size: 14px; font-weight: 600; color: var(--fg); }
+.column-name { font-size: 13px; font-weight: 600; color: var(--fg); }
 
 .column-count {
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 600;
     color: var(--fg-dim);
     background: var(--bg-card);
-    padding: 2px 8px;
+    padding: 2px 7px;
     border-radius: 10px;
 }
 
 .add-task-btn {
-    width: 26px;
-    height: 26px;
+    width: 24px;
+    height: 24px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -877,7 +878,7 @@ body.light-mode .theme-toggle .fa-moon {
     border: 1px dashed var(--border-light);
     border-radius: 6px;
     color: var(--fg-dim);
-    font-size: 12px;
+    font-size: 11px;
     cursor: pointer;
     transition: all 0.2s ease;
 }
@@ -892,9 +893,9 @@ body.light-mode .theme-toggle .fa-moon {
 .task-card {
     background: var(--bg-card);
     border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 14px;
-    margin-bottom: 10px;
+    border-radius: 8px;
+    padding: 10px 12px; /* Padding diperkecil agar lebih ringkas */
+    margin-bottom: 8px;
     cursor: grab;
     transition: all 0.25s ease;
     position: relative;
@@ -917,11 +918,11 @@ body.light-mode .theme-toggle .fa-moon {
     display: inline-flex;
     align-items: center;
     gap: 4px;
-    font-size: 11px;
+    font-size: 10px; /* Font size diperkecil */
     font-weight: 600;
-    padding: 3px 8px;
-    border-radius: 5px;
-    margin-bottom: 10px;
+    padding: 2px 6px; /* Padding diperkecil */
+    border-radius: 4px;
+    margin-bottom: 6px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
@@ -931,32 +932,36 @@ body.light-mode .theme-toggle .fa-moon {
 .priority-low { background: var(--green-bg); color: var(--green); }
 
 .task-title {
-    font-size: 14px;
+    font-size: 13px; /* Font size diperkecil */
     font-weight: 600;
     color: var(--fg);
-    margin-bottom: 6px;
+    margin-bottom: 4px;
     line-height: 1.4;
 }
 
 .task-desc {
-    font-size: 12px;
+    font-size: 11px; /* Font size diperkecil */
     color: var(--fg-muted);
-    line-height: 1.5;
-    margin-bottom: 12px;
+    line-height: 1.4;
+    margin-bottom: 8px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Batasi maksimal 2 baris */
+    -webkit-box-orient: vertical;  
+    overflow: hidden;
 }
 
 .task-tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 6px;
-    margin-bottom: 12px;
+    gap: 4px;
+    margin-bottom: 8px;
 }
 
 .task-tag {
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 500;
-    padding: 3px 8px;
-    border-radius: 5px;
+    padding: 2px 6px;
+    border-radius: 4px;
     background: var(--bg-deep);
     color: var(--fg-muted);
     border: 1px solid var(--border);
@@ -978,24 +983,24 @@ body.light-mode .theme-toggle .fa-moon {
 .task-due {
     display: flex;
     align-items: center;
-    gap: 5px;
-    font-size: 12px;
+    gap: 4px;
+    font-size: 11px;
     color: var(--fg-dim);
 }
 
 .task-due.overdue { color: var(--red); }
-.task-due i { font-size: 11px; }
+.task-due i { font-size: 10px; }
 
 .task-assignees { display: flex; align-items: center; }
 
 .task-assignee {
-    width: 26px;
-    height: 26px;
+    width: 24px;
+    height: 24px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 10px;
+    font-size: 9px;
     font-weight: 700;
     color: white;
     margin-left: -6px;
@@ -1004,10 +1009,10 @@ body.light-mode .theme-toggle .fa-moon {
 
 .task-assignee:first-child { margin-left: 0; }
 
-.task-progress { margin-bottom: 10px; }
+.task-progress { margin-bottom: 8px; }
 
 .progress-bar-bg {
-    height: 4px;
+    height: 3px;
     background: var(--border);
     border-radius: 2px;
     overflow: hidden;
@@ -1020,9 +1025,9 @@ body.light-mode .theme-toggle .fa-moon {
 }
 
 .progress-text {
-    font-size: 11px;
+    font-size: 10px;
     color: var(--fg-dim);
-    margin-top: 4px;
+    margin-top: 3px;
 }
 
 /* ── Modal ── */
@@ -1191,6 +1196,7 @@ body.light-mode .theme-toggle .fa-moon {
 .kanban-column:nth-child(1) { animation-delay: 0.25s; }
 .kanban-column:nth-child(2) { animation-delay: 0.3s; }
 .kanban-column:nth-child(3) { animation-delay: 0.35s; }
+.kanban-column:nth-child(4) { animation-delay: 0.4s; }
 
 @keyframes countUp {
     from { opacity: 0; transform: scale(0.8); }
@@ -1214,6 +1220,7 @@ body.light-mode .theme-toggle .fa-moon {
 /* ── Responsive ── */
 @media (max-width: 1200px) {
     .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .kanban-board { grid-template-columns: repeat(2, 1fr); } /* 2 kolom pada layar sedang */
 }
 
 @media (max-width: 900px) {
@@ -1230,7 +1237,7 @@ body.light-mode .theme-toggle .fa-moon {
         transform: translateX(-100%);
         width: var(--sidebar-width);
     }
-    .kanban-board { grid-template-columns: 1fr; }
+    .kanban-board { grid-template-columns: 1fr; } /* 1 kolom pada layar kecil */
     .stats-grid { grid-template-columns: repeat(2, 1fr); }
     .sidebar-toggle {
         margin: 12px auto 4px;

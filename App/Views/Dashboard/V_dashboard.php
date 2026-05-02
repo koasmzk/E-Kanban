@@ -25,26 +25,26 @@
 
             <div class="sidebar-section">
                 <div class="sidebar-section-title">Menu</div>
-                <div class="nav-item" data-page="overview">
+                <div class="nav-item" data-page="dashboard">
                     <i class="fa-solid fa-house"></i>
-                    <span class="nav-item-text">Overview</span>
-                    <span class="tooltip">Overview</span>
-                </div>
-                <div class="nav-item active" data-page="dashboard">
-                    <i class="fa-solid fa-table-columns"></i>
                     <span class="nav-item-text">Dashboard</span>
                     <span class="tooltip">Dashboard</span>
                 </div>
-                <div class="nav-item" data-page="calendar">
-                    <i class="fa-regular fa-calendar"></i>
-                    <span class="nav-item-text">Calendar</span>
-                    <span class="tooltip">Calendar</span>
+                <div class="nav-item active" data-page="kanban-request">
+                    <i class="fa-solid fa-table-columns"></i>
+                    <span class="nav-item-text">Kanban Request</span>
+                    <span class="tooltip">Kanban Request</span>
                 </div>
-                <div class="nav-item" data-page="messages">
-                    <i class="fa-regular fa-comment-dots"></i>
-                    <span class="nav-item-text">Messages</span>
+                <div class="nav-item" data-page="request-list">
+                    <i class="fa-regular fa-calendar"></i>
+                    <span class="nav-item-text">Request List</span>
+                    <span class="tooltip">Request List</span>
+                </div>
+                <div class="nav-item" data-page="notifikasi">
+                    <i class="fa-regular fa-bell"></i>
+                    <span class="nav-item-text">Notifikasi</span>
                     <span class="nav-badge">3</span>
-                    <span class="tooltip">Messages</span>
+                    <span class="tooltip">Notifikasi</span>
                 </div>
             </div>
 
@@ -165,40 +165,52 @@
                 </div>
 
                 <div class="kanban-board" id="kanbanBoard">
-                    <div class="kanban-column column-backlog" data-status="backlog">
+                    <div class="kanban-column column-diterima" data-status="diterima">
                         <div class="column-header">
                             <div class="column-header-left">
                                 <div class="column-dot"></div>
-                                <span class="column-name">Backlog</span>
-                                <span class="column-count" id="count-backlog">2</span>
+                                <span class="column-name">Diterima</span>
+                                <span class="column-count" id="count-diterima">0</span>
                             </div>
-                            <button class="add-task-btn" data-column="backlog" aria-label="Add task to Backlog"><i class="fa-solid fa-plus"></i></button>
+                            <button class="add-task-btn" data-column="diterima" aria-label="Add task to Diterima"><i class="fa-solid fa-plus"></i></button>
                         </div>
-                        <div class="task-list" data-status="backlog"></div>
+                        <div class="task-list" data-status="diterima"></div>
                     </div>
 
-                    <div class="kanban-column column-todo" data-status="todo">
+                    <div class="kanban-column column-diproses" data-status="diproses">
                         <div class="column-header">
                             <div class="column-header-left">
                                 <div class="column-dot"></div>
-                                <span class="column-name">To Do</span>
-                                <span class="column-count" id="count-todo">2</span>
+                                <span class="column-name">Diproses</span>
+                                <span class="column-count" id="count-diproses">0</span>
                             </div>
-                            <button class="add-task-btn" data-column="todo" aria-label="Add task to To Do"><i class="fa-solid fa-plus"></i></button>
+                            <button class="add-task-btn" data-column="diproses" aria-label="Add task to Diproses"><i class="fa-solid fa-plus"></i></button>
                         </div>
-                        <div class="task-list" data-status="todo"></div>
+                        <div class="task-list" data-status="diproses"></div>
                     </div>
 
-                    <div class="kanban-column column-inprogress" data-status="inprogress">
+                    <div class="kanban-column column-discan" data-status="discan">
                         <div class="column-header">
                             <div class="column-header-left">
                                 <div class="column-dot"></div>
-                                <span class="column-name">In Progress</span>
-                                <span class="column-count" id="count-inprogress">1</span>
+                                <span class="column-name">Discan</span>
+                                <span class="column-count" id="count-discan">0</span>
                             </div>
-                            <button class="add-task-btn" data-column="inprogress" aria-label="Add task to In Progress"><i class="fa-solid fa-plus"></i></button>
+                            <button class="add-task-btn" data-column="discan" aria-label="Add task to Discan"><i class="fa-solid fa-plus"></i></button>
                         </div>
-                        <div class="task-list" data-status="inprogress"></div>
+                        <div class="task-list" data-status="discan"></div>
+                    </div>
+
+                    <div class="kanban-column column-diantar" data-status="diantar">
+                        <div class="column-header">
+                            <div class="column-header-left">
+                                <div class="column-dot"></div>
+                                <span class="column-name">Diantar</span>
+                                <span class="column-count" id="count-diantar">0</span>
+                            </div>
+                            <button class="add-task-btn" data-column="diantar" aria-label="Add task to Diantar"><i class="fa-solid fa-plus"></i></button>
+                        </div>
+                        <div class="task-list" data-status="diantar"></div>
                     </div>
                 </div>
             </section>
@@ -234,9 +246,10 @@
                 <div class="form-group">
                     <label class="form-label" for="taskColumn">Column</label>
                     <select class="form-select" id="taskColumn">
-                        <option value="backlog">Backlog</option>
-                        <option value="todo" selected>To Do</option>
-                        <option value="inprogress">In Progress</option>
+                        <option value="diterima">Diterima</option>
+                        <option value="diproses" selected>Diproses</option>
+                        <option value="discan">Discan</option>
+                        <option value="diantar">Diantar</option>
                     </select>
                 </div>
                 <div class="form-group">

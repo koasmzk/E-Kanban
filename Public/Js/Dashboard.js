@@ -4,7 +4,7 @@ const tasks = [
         title: 'Q2 Marketing',
         description: 'Plan Q2 marketing strategy and budget allocation for all channels.',
         priority: 'medium',
-        status: 'backlog',
+        status: 'diterima',
         tags: ['marketing'],
         due: '2025-01-15',
         overdue: true,
@@ -19,7 +19,7 @@ const tasks = [
         title: 'Ad Copy Drafts',
         description: 'Write ad copy variations for social media campaigns.',
         priority: 'low',
-        status: 'backlog',
+        status: 'diterima',
         tags: ['marketing', 'design'],
         due: '2025-01-20',
         overdue: false,
@@ -33,7 +33,7 @@ const tasks = [
         title: 'Mobile App v2',
         description: 'Design and prototype Mobile App v2 with improved UX flows.',
         priority: 'high',
-        status: 'todo',
+        status: 'diproses',
         tags: ['dev', 'design'],
         due: '2025-01-10',
         overdue: true,
@@ -48,7 +48,7 @@ const tasks = [
         title: 'User Research Report',
         description: 'Compile findings from user interviews and usability tests.',
         priority: 'medium',
-        status: 'todo',
+        status: 'discan',
         tags: ['research'],
         due: '2025-02-01',
         overdue: false,
@@ -62,7 +62,7 @@ const tasks = [
         title: 'Landing Page Redesign',
         description: 'Redesign the main landing page with new brand guidelines and improved conversion flow.',
         priority: 'high',
-        status: 'inprogress',
+        status: 'diantar',
         tags: ['design', 'urgent'],
         due: '2025-01-25',
         overdue: false,
@@ -89,10 +89,11 @@ const modalCancel = document.getElementById('modalCancel');
 const modalSubmit = document.getElementById('modalSubmit');
 
 function renderTasks() {
-    const statuses = ['backlog', 'todo', 'inprogress'];
+    const statuses = ['diterima', 'diproses', 'discan', 'diantar'];
 
     statuses.forEach(status => {
         const list = document.querySelector(`.task-list[data-status="${status}"]`);
+        if (!list) return;
         list.innerHTML = '';
 
         let filtered = tasks.filter(t => t.status === status);
@@ -116,7 +117,8 @@ function renderTasks() {
         });
 
         const totalInColumn = tasks.filter(t => t.status === status).length;
-        document.getElementById(`count-${status}`).textContent = totalInColumn;
+        const countEl = document.getElementById(`count-${status}`);
+        if (countEl) countEl.textContent = totalInColumn;
     });
 
     updateStats();
@@ -181,8 +183,8 @@ function createTaskCard(task) {
 
 function updateStats() {
     const total = tasks.length;
-    const inProgress = tasks.filter(t => t.status === 'inprogress').length;
-    const completed = tasks.filter(t => t.status === 'completed').length;
+    const inProgress = tasks.filter(t => t.status === 'diproses').length;
+    const completed = tasks.filter(t => t.status === 'diantar').length;
     const overdue = tasks.filter(t => t.overdue).length;
 
     animateValue('totalTasks', total);
@@ -248,7 +250,7 @@ document.querySelectorAll('.kanban-column').forEach(column => {
 });
 
 function getStatusLabel(status) {
-    const labels = { backlog: 'Backlog', todo: 'To Do', inprogress: 'In Progress' };
+    const labels = { diterima: 'Diterima', diproses: 'Diproses', discan: 'Discan', diantar: 'Diantar' };
     return labels[status] || status;
 }
 
@@ -305,7 +307,7 @@ function loadTheme() {
 }
 
 addTaskBtn.addEventListener('click', () => {
-    openModal('todo');
+    openModal('diterima');
 });
 
 document.querySelectorAll('.add-task-btn').forEach(btn => {
@@ -425,7 +427,7 @@ if (userMoreIcon && userDropdown) {
 
     document.addEventListener('click', (e) => {
         if (!userDropdown.contains(e.target) && !userMoreIcon.contains(e.target)) {
-            userDropdown.classList.remove('active');
+            userDropdown.remove('active');
         }
     });
 }
