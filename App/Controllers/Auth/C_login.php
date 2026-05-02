@@ -1,9 +1,18 @@
 <?php
+require_once dirname(__DIR__) . '../../Models/Auth/M_login.php';
+
 class C_login
 {
+    private M_login $model;
+
+    public function __construct()
+    {
+        $this->model = new M_login();
+    }
+
     public function index(): void
     {
-        require_once dirname(__DIR__) . '../../Views/Auth/V_login.php';
+        require_once ROOT . '/App/Views/Auth/V_login.php';
     }
 
     public function auth(): void
@@ -13,16 +22,28 @@ class C_login
             exit;
         }
 
-        // DUMMY AUTH
-        $_SESSION['user_id'] = 1;
-        $_SESSION['username'] = 'AdminDummy';
-        $_SESSION['role'] = 'admin';
+        $username = trim($_POST['username'] ?? '');
+        $password = $_POST['password'] ?? '';
+
+        $user = $this->model->findByUsername($username);
+
+        if ($user === null || !password_verify($password, $user['password'])) {
+            $_SESSION['login_error'] = 'Username atau password salah.';
+            header('Location: ' . $GLOBALS['baseURL'] . '/login');
+            exit;
+        }
+
+        session_regenerate_id(true);
+
+        $_SESSION['user_id']  = $user['id'];
+        $_SESSION['username'] = $user['username'];
+        $_SESSION['name']     = $user['name'];
+        $_SESSION['role']     = $user['role'];
 
         header('Location: ' . $GLOBALS['baseURL'] . '/dashboard');
         exit;
     }
 
-    // ✮ Fungsi Logout Baru ✮
     public function logout(): void
     {
         session_unset();
