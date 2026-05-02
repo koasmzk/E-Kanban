@@ -359,6 +359,13 @@ body {
     background: var(--bg-card);
 }
 
+/* ✅ PERBAIKAN: Rapihkan posisi saat collapsed */
+.sidebar.collapsed .user-profile {
+    justify-content: center;
+    padding: 8px 4px;
+    gap: 4px;
+}
+
 .user-avatar {
     width: 34px;
     height: 34px;
@@ -428,10 +435,9 @@ body {
     color: var(--fg);
 }
 
+/* ✅ PERBAIKAN: Ikon titik tiga tetap muncul saat collapsed */
 .sidebar.collapsed .user-more-icon {
-    opacity: 0;
-    max-width: 0;
-    pointer-events: none;
+    margin-left: 0;
 }
 
 /* ── User Dropdown ── */
@@ -490,8 +496,28 @@ body {
     color: var(--red);
 }
 
+/* ✅ PERBAIKAN: Dropdown meluncur ke kanan saat collapsed */
 .sidebar.collapsed .user-dropdown {
-    display: none;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    left: calc(100% + 12px);
+    right: auto;
+    bottom: auto;
+    top: 50%;
+    transform: translateY(-50%) translateX(10px);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: all 0.2s ease;
+    box-shadow: 0 8px 24px var(--shadow-hover);
+}
+
+.sidebar.collapsed .user-dropdown.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(-50%) translateX(0);
 }
 
 /* ── Toggle Icons ── */
