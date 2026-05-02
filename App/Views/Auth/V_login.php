@@ -138,7 +138,9 @@ unset($_SESSION['register_success'], $_SESSION['login_errors']);
     </div>
 
     <div class="toast-container" id="toastContainer"></div>
-    <!-- ✮ GANTI PATH JS PAKAI BASE URL ✮ -->
+    <script>
+        window.phpLoginError = <?= json_encode($errors[0] ?? '') ?>;
+    </script>
     <script src="<?= $GLOBALS['baseURL'] ?>/Public/Js/Login.js?v=<?= time() ?>"></script>
 </body>
 </html>

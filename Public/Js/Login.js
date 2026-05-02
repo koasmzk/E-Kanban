@@ -17,6 +17,10 @@ const mainCard = document.querySelector('.main-card');
 let currentGuideStep = 0;
 const totalGuideSteps = 6;
 
+if (window.phpLoginError) {
+    showToast('error', window.phpLoginError);
+}
+
 // === Cek Transisi saat Load ===
 (function checkTransitionOnLoad() {
     const transitionState = localStorage.getItem('taskflow_transition');

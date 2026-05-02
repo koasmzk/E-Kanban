@@ -28,7 +28,7 @@ class C_login
         $user = $this->model->findByUsername($username);
 
         if ($user === null || !password_verify($password, $user['password'])) {
-            $_SESSION['login_error'] = 'Username atau password salah.';
+            $_SESSION['login_errors'] = ['Username atau password salah.'];
             header('Location: ' . $GLOBALS['baseURL'] . '/login');
             exit;
         }
