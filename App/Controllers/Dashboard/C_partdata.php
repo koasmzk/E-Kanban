@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__DIR__) . '/../../Models/Dashboard/M_partdata.php';
+require_once dirname(__DIR__) . '../../Models/Dashboard/M_partdata.php';
 
 class C_partdata
 {
@@ -18,7 +18,7 @@ class C_partdata
         }
 
         $parts = $this->model->getAll();
-        require_once dirname(__DIR__) . '/../../Views/Dashboard/V_partdata.php';
+        require_once dirname(__DIR__) . '../../Views/Dashboard/V_partdata.php';
     }
 
     public function store(): void

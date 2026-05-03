@@ -25,15 +25,15 @@
 
             <div class="sidebar-section">
                 <div class="sidebar-section-title">Menu</div>
-                <div class="nav-item" data-page="dashboard">
+                <div class="nav-item" data-page="overview">
                     <i class="fa-solid fa-house"></i>
+                    <span class="nav-item-text">Overview</span>
+                    <span class="tooltip">Overview</span>
+                </div>
+                <div class="nav-item active" data-page="dashboard">
+                    <i class="fa-solid fa-table-columns"></i>
                     <span class="nav-item-text">Dashboard</span>
                     <span class="tooltip">Dashboard</span>
-                </div>
-                <div class="nav-item active" data-page="kanban-request">
-                    <i class="fa-solid fa-table-columns"></i>
-                    <span class="nav-item-text">Kanban Request</span>
-                    <span class="tooltip">Kanban Request</span>
                 </div>
                 <div class="nav-item" data-page="request-list">
                     <i class="fa-regular fa-calendar"></i>
@@ -50,11 +50,11 @@
 
             <div class="sidebar-section">
                 <div class="sidebar-section-title">Master Data</div>
-                <div class="nav-item" data-page="data-part">
+                <a href="<?= $GLOBALS['baseURL'] ?>/data-part" class="nav-item" data-page="data-part">
                     <i class="fa-solid fa-boxes-stacked"></i>
                     <span class="nav-item-text">Data Part</span>
                     <span class="tooltip">Data Part</span>
-                </div>
+                </a>
                 <div class="nav-item" data-page="line-aktif">
                     <i class="fa-solid fa-diagram-project"></i>
                     <span class="nav-item-text">Line Aktif</span>

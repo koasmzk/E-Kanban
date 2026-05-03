@@ -169,6 +169,7 @@ body {
     cursor: pointer; transition: all 0.2s ease;
     color: var(--fg-muted); font-size: 14px; font-weight: 500;
     position: relative; margin-bottom: 2px; white-space: nowrap;
+    text-decoration: none;
 }
 
 .sidebar.collapsed .nav-item { justify-content: center; padding: 10px; gap: 0; }

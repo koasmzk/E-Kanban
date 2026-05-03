@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__DIR__) . '/../../Config/ConnectDB.php';
+require_once dirname(__DIR__) . '../../../Config/Connection/ConnectDB.php';
 
 class M_partdata
 {
