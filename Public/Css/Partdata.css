@@ -1,0 +1,374 @@
+/* === Page Header === */
+.header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 28px;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+    padding-top: 4px;
+}
+
+.page-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 6px;
+}
+
+.breadcrumb-parent {
+    font-size: 12px;
+    color: var(--fg-dim);
+    font-weight: 500;
+}
+
+.breadcrumb-sep {
+    font-size: 10px;
+    color: var(--fg-dim);
+}
+
+.breadcrumb-current {
+    font-size: 12px;
+    color: var(--accent);
+    font-weight: 600;
+}
+
+.page-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--fg);
+    letter-spacing: -0.5px;
+    margin-bottom: 4px;
+}
+
+.page-subtitle {
+    font-size: 14px;
+    color: var(--fg-muted);
+}
+
+/* === Flash Messages === */
+.flash {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 18px;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 20px;
+    animation: fadeInUp 0.3s ease;
+}
+
+.flash-success {
+    background: var(--green-bg);
+    color: var(--green);
+    border: 1px solid rgba(0, 214, 143, 0.2);
+}
+
+.flash-error {
+    background: var(--red-bg);
+    color: var(--red);
+    border: 1px solid rgba(255, 77, 106, 0.2);
+}
+
+/* === Table Card === */
+.table-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    animation: fadeInUp 0.4s ease backwards;
+    animation-delay: 0.1s;
+}
+
+.table-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.table-count {
+    font-size: 13px;
+    color: var(--fg-muted);
+    font-weight: 500;
+}
+
+.table-wrapper {
+    overflow-x: auto;
+}
+
+/* === Data Table === */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+.data-table thead tr {
+    background: var(--bg-deep);
+    border-bottom: 1px solid var(--border);
+}
+
+.data-table th {
+    padding: 12px 16px;
+    text-align: left;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--fg-dim);
+    white-space: nowrap;
+}
+
+.data-table tbody tr {
+    border-bottom: 1px solid var(--border);
+    transition: background 0.15s ease;
+}
+
+.data-table tbody tr:last-child {
+    border-bottom: none;
+}
+
+.data-table tbody tr:hover {
+    background: var(--bg-card-hover);
+}
+
+.data-table td {
+    padding: 13px 16px;
+    color: var(--fg);
+    vertical-align: middle;
+}
+
+.col-no {
+    width: 48px;
+    color: var(--fg-dim);
+    font-weight: 600;
+    text-align: center;
+}
+
+.col-action {
+    width: 90px;
+    text-align: center;
+}
+
+.td-name {
+    font-weight: 600;
+    color: var(--fg);
+}
+
+.td-desc {
+    color: var(--fg-muted);
+    max-width: 260px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.td-date {
+    color: var(--fg-dim);
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+/* === Badge Part Number === */
+.badge-part-number {
+    display: inline-block;
+    background: var(--purple-bg);
+    color: var(--accent);
+    border: 1px solid rgba(108, 92, 231, 0.25);
+    padding: 3px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: 'Space Grotesk', sans-serif;
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+}
+
+/* === Action Buttons === */
+.action-btns {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.btn-icon {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: transparent;
+    cursor: pointer;
+    font-size: 13px;
+    transition: all 0.2s ease;
+}
+
+.btn-edit {
+    color: var(--blue);
+    border-color: rgba(77, 166, 255, 0.3);
+}
+
+.btn-edit:hover {
+    background: var(--blue-bg);
+    border-color: var(--blue);
+}
+
+.btn-delete {
+    color: var(--red);
+    border-color: rgba(255, 77, 106, 0.3);
+}
+
+.btn-delete:hover {
+    background: var(--red-bg);
+    border-color: var(--red);
+}
+
+/* === Empty State === */
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 48px 0;
+    color: var(--fg-dim);
+}
+
+.empty-state i {
+    font-size: 36px;
+    opacity: 0.4;
+}
+
+.empty-state p {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* === Modal === */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-overlay.active { display: flex; }
+
+.modal {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 0;
+    width: 480px;
+    max-width: 92vw;
+    animation: modalIn 0.25s ease;
+    overflow: hidden;
+}
+
+.modal-sm { width: 380px; }
+
+@keyframes modalIn {
+    from { opacity: 0; transform: translateY(20px) scale(0.96); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid var(--border);
+}
+
+.modal-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--fg);
+}
+
+.modal-close {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--fg-muted);
+    cursor: pointer;
+    font-size: 13px;
+    transition: all 0.2s ease;
+}
+
+.modal-close:hover { background: var(--red-bg); color: var(--red); border-color: var(--red); }
+
+form#partForm,
+form#deleteOverlay form {
+    padding: 20px 24px 24px;
+}
+
+.delete-confirm-text {
+    padding: 20px 24px 8px;
+    font-size: 14px;
+    color: var(--fg-muted);
+    line-height: 1.6;
+}
+
+.delete-confirm-text strong {
+    color: var(--fg);
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.required { color: var(--red); }
+
+/* === Btn Danger === */
+.btn-danger {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 18px;
+    background: var(--red);
+    color: white;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    font-weight: 600;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-danger:hover { background: #e03060; transform: translateY(-1px); }
+
+/* === Animations === */
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
