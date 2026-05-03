@@ -79,6 +79,12 @@
                     <span class="nav-item-text">Settings</span>
                     <span class="tooltip">Settings</span>
                 </div>
+                <div class="nav-item theme-nav-item" id="themeToggle">
+                    <i class="fa-solid fa-moon theme-icon-dark"></i>
+                    <i class="fa-solid fa-sun theme-icon-light"></i>
+                    <span class="nav-item-text theme-label">Dark Mode</span>
+                    <span class="tooltip">Toggle Theme</span>
+                </div>
             </div>
 
             <div class="sidebar-bottom">
@@ -107,60 +113,49 @@
                     <h1 data-username="<?= htmlspecialchars($_SESSION['username'] ?? 'User') ?>">Good morning, <span><?= htmlspecialchars($_SESSION['username'] ?? 'User') ?></span></h1>
                     <p>Here's what's happening with your projects today.</p>
                 </div>
-                <div class="header-right">
-                    <div class="search-box">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                        <input type="text" placeholder="Search tasks..." id="searchInput">
-                    </div>
-                    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
-                        <i class="fa-solid fa-moon"></i>
-                        <i class="fa-solid fa-sun"></i>
-                    </button>
-                    <button class="icon-btn" id="notifBtn" aria-label="Notifications">
-                        <i class="fa-regular fa-bell"></i>
-                        <span class="badge-dot"></span>
-                    </button>
-                    <button class="btn-primary" id="addTaskBtn">
-                        <i class="fa-solid fa-plus"></i>
-                        New Task
-                    </button>
-                </div>
             </header>
 
             <section class="stats-grid" aria-label="Task Statistics">
                 <div class="stat-card">
                     <div class="stat-icon"><i class="fa-solid fa-list-check"></i></div>
                     <div class="stat-label">Total Tasks</div>
-                    <div class="stat-value" id="totalTasks">5</div>
-                    <div class="stat-change up"><i class="fa-solid fa-arrow-up"></i> 12% this week</div>
+                    <div class="stat-value" id="totalTasks">0</div>
+                    <div class="stat-change up"><i class="fa-solid fa-layer-group"></i> Semua kanban</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fa-solid fa-inbox"></i></div>
+                    <div class="stat-label">Open</div>
+                    <div class="stat-value" id="openTasks">0</div>
+                    <div class="stat-change up"><i class="fa-solid fa-circle-dot"></i> Diterima & Diproses</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-icon"><i class="fa-solid fa-spinner"></i></div>
                     <div class="stat-label">In Progress</div>
-                    <div class="stat-value" id="inProgressTasks">1</div>
-                    <div class="stat-change up"><i class="fa-solid fa-arrow-up"></i> Active now</div>
+                    <div class="stat-value" id="inProgressTasks">0</div>
+                    <div class="stat-change up"><i class="fa-solid fa-circle-dot"></i> Discan</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-icon"><i class="fa-solid fa-circle-check"></i></div>
-                    <div class="stat-label">Completed Today</div>
+                    <div class="stat-label">Completed</div>
                     <div class="stat-value" id="completedTasks">0</div>
-                    <div class="stat-change down"><i class="fa-solid fa-arrow-down"></i> None yet</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon"><i class="fa-solid fa-clock"></i></div>
-                    <div class="stat-label">Overdue</div>
-                    <div class="stat-value" id="overdueTasks">2</div>
-                    <div class="stat-change down"><i class="fa-solid fa-arrow-up"></i> Needs attention</div>
+                    <div class="stat-change up"><i class="fa-solid fa-circle-dot"></i> Diantar</div>
                 </div>
             </section>
 
             <section aria-label="Task Board">
                 <div class="board-header">
-                    <h2 class="board-title">Task Board</h2>
-                    <div class="board-filters">
-                        <button class="filter-btn active" data-filter="all">All</button>
-                        <button class="filter-btn" data-filter="high">High Priority</button>
-                        <button class="filter-btn" data-filter="overdue">Overdue</button>
+                    <div class="board-header-left">
+                        <h2 class="board-title">Task Board</h2>
+                        <div class="board-filters">
+                            <button class="filter-btn active" data-filter="all">All</button>
+                            <button class="filter-btn" data-filter="open">Open</button>
+                            <button class="filter-btn" data-filter="inprogress">In Progress</button>
+                            <button class="filter-btn" data-filter="completed">Completed</button>
+                        </div>
+                    </div>
+                    <div class="search-box">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" placeholder="Search tasks..." id="searchInput">
                     </div>
                 </div>
 
@@ -172,7 +167,7 @@
                                 <span class="column-name">Diterima</span>
                                 <span class="column-count" id="count-diterima">0</span>
                             </div>
-                            <button class="add-task-btn" data-column="diterima" aria-label="Add task to Diterima"><i class="fa-solid fa-plus"></i></button>
+                            <button class="add-task-btn" data-column="diterima" aria-label="Add task"><i class="fa-solid fa-plus"></i></button>
                         </div>
                         <div class="task-list" data-status="diterima"></div>
                     </div>
@@ -184,7 +179,7 @@
                                 <span class="column-name">Diproses</span>
                                 <span class="column-count" id="count-diproses">0</span>
                             </div>
-                            <button class="add-task-btn" data-column="diproses" aria-label="Add task to Diproses"><i class="fa-solid fa-plus"></i></button>
+                            <button class="add-task-btn" data-column="diproses" aria-label="Add task"><i class="fa-solid fa-plus"></i></button>
                         </div>
                         <div class="task-list" data-status="diproses"></div>
                     </div>
@@ -196,7 +191,7 @@
                                 <span class="column-name">Discan</span>
                                 <span class="column-count" id="count-discan">0</span>
                             </div>
-                            <button class="add-task-btn" data-column="discan" aria-label="Add task to Discan"><i class="fa-solid fa-plus"></i></button>
+                            <button class="add-task-btn" data-column="discan" aria-label="Add task"><i class="fa-solid fa-plus"></i></button>
                         </div>
                         <div class="task-list" data-status="discan"></div>
                     </div>
@@ -208,7 +203,7 @@
                                 <span class="column-name">Diantar</span>
                                 <span class="column-count" id="count-diantar">0</span>
                             </div>
-                            <button class="add-task-btn" data-column="diantar" aria-label="Add task to Diantar"><i class="fa-solid fa-plus"></i></button>
+                            <button class="add-task-btn" data-column="diantar" aria-label="Add task"><i class="fa-solid fa-plus"></i></button>
                         </div>
                         <div class="task-list" data-status="diantar"></div>
                     </div>

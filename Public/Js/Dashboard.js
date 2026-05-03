@@ -23,9 +23,7 @@ const tasks = [
         tags: ['marketing', 'design'],
         due: '2025-01-20',
         overdue: false,
-        assignees: [
-            { initials: 'LW', color: '#fbbf24' }
-        ],
+        assignees: [{ initials: 'LW', color: '#fbbf24' }],
         progress: 0
     },
     {
@@ -52,9 +50,7 @@ const tasks = [
         tags: ['research'],
         due: '2025-02-01',
         overdue: false,
-        assignees: [
-            { initials: 'EM', color: '#ff6b6b' }
-        ],
+        assignees: [{ initials: 'EM', color: '#ff6b6b' }],
         progress: 0
     },
     {
@@ -79,31 +75,41 @@ let nextId = 6;
 let currentFilter = 'all';
 let draggedCard = null;
 
-const sidebar = document.getElementById('sidebar');
+const sidebar       = document.getElementById('sidebar');
 const sidebarToggle = document.getElementById('sidebarToggle');
-const themeToggle = document.getElementById('themeToggle');
-const themeFlash = document.getElementById('themeFlash');
-const modalOverlay = document.getElementById('modalOverlay');
-const addTaskBtn = document.getElementById('addTaskBtn');
-const modalCancel = document.getElementById('modalCancel');
-const modalSubmit = document.getElementById('modalSubmit');
+const themeToggle   = document.getElementById('themeToggle');
+const themeFlash    = document.getElementById('themeFlash');
+const modalOverlay  = document.getElementById('modalOverlay');
+const modalCancel   = document.getElementById('modalCancel');
+const modalSubmit   = document.getElementById('modalSubmit');
+
+// open  = diterima + diproses
+// inprogress = discan
+// completed  = diantar
+const FILTER_MAP = {
+    all:        ['diterima', 'diproses', 'discan', 'diantar'],
+    open:       ['diterima', 'diproses'],
+    inprogress: ['discan'],
+    completed:  ['diantar'],
+};
 
 function renderTasks() {
     const statuses = ['diterima', 'diproses', 'discan', 'diantar'];
+    const visibleStatuses = FILTER_MAP[currentFilter];
+    const searchVal = document.getElementById('searchInput').value.toLowerCase().trim();
 
     statuses.forEach(status => {
         const list = document.querySelector(`.task-list[data-status="${status}"]`);
-        if (!list) return;
+        const column = document.querySelector(`.kanban-column[data-status="${status}"]`);
+        if (!list || !column) return;
+
+        // Sembunyikan kolom yang tidak relevan dengan filter aktif
+        column.style.display = visibleStatuses.includes(status) ? '' : 'none';
+
         list.innerHTML = '';
 
         let filtered = tasks.filter(t => t.status === status);
-        if (currentFilter === 'high') {
-            filtered = filtered.filter(t => t.priority === 'high');
-        } else if (currentFilter === 'overdue') {
-            filtered = filtered.filter(t => t.overdue);
-        }
 
-        const searchVal = document.getElementById('searchInput').value.toLowerCase().trim();
         if (searchVal) {
             filtered = filtered.filter(t =>
                 t.title.toLowerCase().includes(searchVal) ||
@@ -111,14 +117,10 @@ function renderTasks() {
             );
         }
 
-        filtered.forEach(task => {
-            const card = createTaskCard(task);
-            list.appendChild(card);
-        });
+        filtered.forEach(task => list.appendChild(createTaskCard(task)));
 
-        const totalInColumn = tasks.filter(t => t.status === status).length;
         const countEl = document.getElementById(`count-${status}`);
-        if (countEl) countEl.textContent = totalInColumn;
+        if (countEl) countEl.textContent = tasks.filter(t => t.status === status).length;
     });
 
     updateStats();
@@ -130,37 +132,31 @@ function createTaskCard(task) {
     card.draggable = true;
     card.dataset.id = task.id;
 
-    const priorityClass = `priority-${task.priority}`;
     const priorityLabel = task.priority.charAt(0).toUpperCase() + task.priority.slice(1);
-
-    const dueDate = new Date(task.due);
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
+    const dueDate  = new Date(task.due);
+    const today    = new Date(); today.setHours(0, 0, 0, 0);
     const isOverdue = dueDate < today;
-    const dueText = dueDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    const dueText  = dueDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
 
-    const tagsHtml = task.tags.map(tag => {
-        const tagClass = `tag-${tag}`;
-        const tagLabel = tag.charAt(0).toUpperCase() + tag.slice(1);
-        return `<span class="task-tag ${tagClass}">${tagLabel}</span>`;
-    }).join('');
+    const tagsHtml = task.tags.map(tag =>
+        `<span class="task-tag tag-${tag}">${tag.charAt(0).toUpperCase() + tag.slice(1)}</span>`
+    ).join('');
 
     const assigneesHtml = task.assignees.map(a =>
-        `<div class="task-assignee" style="background: ${a.color}" title="${a.initials}">${a.initials}</div>`
+        `<div class="task-assignee" style="background:${a.color}" title="${a.initials}">${a.initials}</div>`
     ).join('');
 
     const progressHtml = task.progress > 0 ? `
         <div class="task-progress">
             <div class="progress-bar-bg">
-                <div class="progress-bar-fill" style="width: ${task.progress}%; background: ${task.progress >= 60 ? 'var(--green)' : task.progress >= 30 ? 'var(--orange)' : 'var(--red)'}"></div>
+                <div class="progress-bar-fill" style="width:${task.progress}%;background:${task.progress >= 60 ? 'var(--green)' : task.progress >= 30 ? 'var(--orange)' : 'var(--red)'}"></div>
             </div>
             <span class="progress-text">${task.progress}% complete</span>
-        </div>
-    ` : '';
+        </div>` : '';
 
     card.innerHTML = `
-        <div class="task-priority ${priorityClass}">
-            <i class="fa-solid fa-flag" style="font-size: 9px;"></i> ${priorityLabel}
+        <div class="task-priority priority-${task.priority}">
+            <i class="fa-solid fa-flag" style="font-size:9px"></i> ${priorityLabel}
         </div>
         <div class="task-title">${task.title}</div>
         <div class="task-desc">${task.description}</div>
@@ -172,38 +168,31 @@ function createTaskCard(task) {
                 ${dueText}${isOverdue ? ' (Overdue)' : ''}
             </div>
             <div class="task-assignees">${assigneesHtml}</div>
-        </div>
-    `;
+        </div>`;
 
     card.addEventListener('dragstart', handleDragStart);
     card.addEventListener('dragend', handleDragEnd);
-
     return card;
 }
 
 function updateStats() {
-    const total = tasks.length;
-    const inProgress = tasks.filter(t => t.status === 'diproses').length;
-    const completed = tasks.filter(t => t.status === 'diantar').length;
-    const overdue = tasks.filter(t => t.overdue).length;
-
-    animateValue('totalTasks', total);
-    animateValue('inProgressTasks', inProgress);
-    animateValue('completedTasks', completed);
-    animateValue('overdueTasks', overdue);
+    animateValue('totalTasks',      tasks.length);
+    animateValue('openTasks',       tasks.filter(t => ['diterima', 'diproses'].includes(t.status)).length);
+    animateValue('inProgressTasks', tasks.filter(t => t.status === 'discan').length);
+    animateValue('completedTasks',  tasks.filter(t => t.status === 'diantar').length);
 }
 
-function animateValue(elementId, target) {
-    const el = document.getElementById(elementId);
+function animateValue(id, target) {
+    const el = document.getElementById(id);
+    if (!el) return;
     const current = parseInt(el.textContent) || 0;
     if (current === target) return;
-
-    let start = current;
+    let val = current;
     const step = target > current ? 1 : -1;
-    const interval = setInterval(() => {
-        start += step;
-        el.textContent = start;
-        if (start === target) clearInterval(interval);
+    const iv = setInterval(() => {
+        val += step;
+        el.textContent = val;
+        if (val === target) clearInterval(iv);
     }, 80);
 }
 
@@ -217,7 +206,7 @@ function handleDragStart(e) {
 function handleDragEnd() {
     this.classList.remove('dragging');
     draggedCard = null;
-    document.querySelectorAll('.kanban-column').forEach(col => col.classList.remove('drag-over'));
+    document.querySelectorAll('.kanban-column').forEach(c => c.classList.remove('drag-over'));
 }
 
 document.querySelectorAll('.kanban-column').forEach(column => {
@@ -226,32 +215,23 @@ document.querySelectorAll('.kanban-column').forEach(column => {
         e.dataTransfer.dropEffect = 'move';
         column.classList.add('drag-over');
     });
-
-    column.addEventListener('dragleave', () => {
-        column.classList.remove('drag-over');
-    });
-
+    column.addEventListener('dragleave', () => column.classList.remove('drag-over'));
     column.addEventListener('drop', e => {
         e.preventDefault();
         column.classList.remove('drag-over');
-
         if (!draggedCard) return;
-
-        const taskId = parseInt(draggedCard.dataset.id);
+        const task = tasks.find(t => t.id === parseInt(draggedCard.dataset.id));
         const newStatus = column.dataset.status;
-        const task = tasks.find(t => t.id === taskId);
-
         if (task && task.status !== newStatus) {
             task.status = newStatus;
             renderTasks();
-            showToast('success', `Task moved to ${getStatusLabel(newStatus)}`);
+            showToast('success', `Task dipindahkan ke ${getStatusLabel(newStatus)}`);
         }
     });
 });
 
-function getStatusLabel(status) {
-    const labels = { diterima: 'Diterima', diproses: 'Diproses', discan: 'Discan', diantar: 'Diantar' };
-    return labels[status] || status;
+function getStatusLabel(s) {
+    return { diterima: 'Diterima', diproses: 'Diproses', discan: 'Discan', diantar: 'Diantar' }[s] || s;
 }
 
 document.querySelectorAll('.filter-btn').forEach(btn => {
@@ -263,32 +243,27 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
     });
 });
 
-document.getElementById('searchInput').addEventListener('input', () => {
-    renderTasks();
-});
+document.getElementById('searchInput').addEventListener('input', renderTasks);
 
-document.querySelectorAll('.nav-item').forEach(item => {
+document.querySelectorAll('.nav-item:not(.theme-nav-item)').forEach(item => {
     item.addEventListener('click', () => {
         document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
         item.classList.add('active');
-        showToast('info', `Navigated to ${item.querySelector('.nav-item-text').textContent}`);
     });
 });
 
 sidebarToggle.addEventListener('click', () => {
     sidebar.classList.toggle('collapsed');
-    const isCollapsed = sidebar.classList.contains('collapsed');
-    localStorage.setItem('sidebar-collapsed', isCollapsed);
-    showToast('info', isCollapsed ? 'Sidebar collapsed' : 'Sidebar expanded');
+    localStorage.setItem('sidebar-collapsed', sidebar.classList.contains('collapsed'));
 });
 
 function loadSidebarState() {
-    const saved = localStorage.getItem('sidebar-collapsed');
-    if (saved === 'true') {
+    if (localStorage.getItem('sidebar-collapsed') === 'true') {
         sidebar.classList.add('collapsed');
     }
 }
 
+// Theme toggle — sekarang nav item di sidebar
 themeToggle.addEventListener('click', () => {
     themeFlash.classList.add('active');
     setTimeout(() => themeFlash.classList.remove('active'), 200);
@@ -296,57 +271,47 @@ themeToggle.addEventListener('click', () => {
     document.body.classList.toggle('light-mode');
     const isLight = document.body.classList.contains('light-mode');
     localStorage.setItem('theme', isLight ? 'light' : 'dark');
-    showToast('info', isLight ? 'Switched to Light Mode' : 'Switched to Dark Mode');
+
+    const label = themeToggle.querySelector('.theme-label');
+    if (label) label.textContent = isLight ? 'Light Mode' : 'Dark Mode';
 });
 
 function loadTheme() {
-    const saved = localStorage.getItem('theme');
-    if (saved === 'light') {
+    if (localStorage.getItem('theme') === 'light') {
         document.body.classList.add('light-mode');
+        const label = themeToggle.querySelector('.theme-label');
+        if (label) label.textContent = 'Light Mode';
     }
 }
 
-addTaskBtn.addEventListener('click', () => {
-    openModal('diterima');
-});
-
 document.querySelectorAll('.add-task-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-        openModal(btn.dataset.column);
-    });
+    btn.addEventListener('click', () => openModal(btn.dataset.column));
 });
 
 function openModal(defaultColumn) {
     document.getElementById('taskColumn').value = defaultColumn;
-    document.getElementById('taskTitle').value = '';
-    document.getElementById('taskDesc').value = '';
+    document.getElementById('taskTitle').value   = '';
+    document.getElementById('taskDesc').value    = '';
     document.getElementById('taskPriority').value = 'medium';
-    document.getElementById('taskDue').value = '';
-    document.getElementById('taskTag').value = 'design';
+    document.getElementById('taskDue').value     = '';
+    document.getElementById('taskTag').value     = 'design';
     modalOverlay.classList.add('active');
     setTimeout(() => document.getElementById('taskTitle').focus(), 100);
 }
 
-function closeModal() {
-    modalOverlay.classList.remove('active');
-}
+function closeModal() { modalOverlay.classList.remove('active'); }
 
 modalCancel.addEventListener('click', closeModal);
-modalOverlay.addEventListener('click', e => {
-    if (e.target === modalOverlay) closeModal();
-});
-
-document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') closeModal();
-});
+modalOverlay.addEventListener('click', e => { if (e.target === modalOverlay) closeModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
 modalSubmit.addEventListener('click', () => {
-    const title = document.getElementById('taskTitle').value.trim();
-    const desc = document.getElementById('taskDesc').value.trim();
+    const title    = document.getElementById('taskTitle').value.trim();
+    const desc     = document.getElementById('taskDesc').value.trim();
     const priority = document.getElementById('taskPriority').value;
-    const due = document.getElementById('taskDue').value;
-    const column = document.getElementById('taskColumn').value;
-    const tag = document.getElementById('taskTag').value;
+    const due      = document.getElementById('taskDue').value;
+    const column   = document.getElementById('taskColumn').value;
+    const tag      = document.getElementById('taskTag').value;
 
     if (!title) {
         showToast('error', 'Task title is required');
@@ -354,65 +319,39 @@ modalSubmit.addEventListener('click', () => {
         return;
     }
 
-    const dueDate = due ? new Date(due) : new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    const isOverdue = dueDate < today;
+    const dueDate = due ? new Date(due) : new Date(Date.now() + 7 * 86400000);
+    const today   = new Date(); today.setHours(0, 0, 0, 0);
 
-    const newTask = {
-        id: nextId++,
-        title: title,
+    tasks.push({
+        id: nextId++, title, priority, status: column, tags: [tag],
         description: desc || 'No description provided.',
-        priority: priority,
-        status: column,
-        tags: [tag],
         due: due || dueDate.toISOString().split('T')[0],
-        overdue: isOverdue,
-        assignees: [
-            { initials: 'AJ', color: '#6c5ce7' }
-        ],
+        overdue: dueDate < today,
+        assignees: [{ initials: 'AJ', color: '#6c5ce7' }],
         progress: 0
-    };
+    });
 
-    tasks.push(newTask);
     closeModal();
     renderTasks();
-    showToast('success', `Task "${title}" created successfully`);
-});
-
-document.getElementById('notifBtn').addEventListener('click', () => {
-    showToast('info', '2 overdue tasks need your attention');
+    showToast('success', `Task "${title}" berhasil dibuat`);
 });
 
 function showToast(type, message) {
     const container = document.getElementById('toastContainer');
     const toast = document.createElement('div');
     toast.className = `toast ${type}`;
-
-    const icons = {
-        success: 'fa-solid fa-circle-check',
-        error: 'fa-solid fa-circle-xmark',
-        info: 'fa-solid fa-circle-info'
-    };
-
-    toast.innerHTML = `<i class="${icons[type]}"></i><span>${message}</span>`;
+    const icons = { success: 'fa-circle-check', error: 'fa-circle-xmark', info: 'fa-circle-info' };
+    toast.innerHTML = `<i class="fa-solid ${icons[type]}"></i><span>${message}</span>`;
     container.appendChild(toast);
-
-    setTimeout(() => {
-        if (toast.parentNode) toast.parentNode.removeChild(toast);
-    }, 3000);
+    setTimeout(() => toast.parentNode?.removeChild(toast), 3000);
 }
 
 function updateGreeting() {
-    const hour = new Date().getHours();
     const h1 = document.querySelector('.header-left h1');
+    if (!h1) return;
     const username = h1.dataset.username || 'User';
-    let greeting;
-
-    if (hour < 12) greeting = 'Good morning';
-    else if (hour < 18) greeting = 'Good afternoon';
-    else greeting = 'Good evening';
-
+    const hour = new Date().getHours();
+    const greeting = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening';
     h1.innerHTML = `${greeting}, <span>${username}</span>`;
 }
 
@@ -420,12 +359,11 @@ const userMoreIcon = document.getElementById('userMoreIcon');
 const userDropdown = document.getElementById('userDropdown');
 
 if (userMoreIcon && userDropdown) {
-    userMoreIcon.addEventListener('click', (e) => {
+    userMoreIcon.addEventListener('click', e => {
         e.stopPropagation();
         userDropdown.classList.toggle('active');
     });
-
-    document.addEventListener('click', (e) => {
+    document.addEventListener('click', e => {
         if (!userDropdown.contains(e.target) && !userMoreIcon.contains(e.target)) {
             userDropdown.classList.remove('active');
         }
