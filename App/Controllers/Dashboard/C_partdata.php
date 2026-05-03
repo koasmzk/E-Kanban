@@ -1,5 +1,6 @@
 <?php
-require_once dirname(__DIR__) . '../../Models/Dashboard/M_partdata.php';
+// Panggil Model menggunakan ROOT (pasti akurat)
+require_once ROOT . '/App/Models/Dashboard/M_partdata.php';
 
 class C_partdata
 {
@@ -18,9 +19,13 @@ class C_partdata
         }
 
         $parts = $this->model->getAll();
-        require_once dirname(__DIR__) . '../../Views/Dashboard/V_partdata.php';
+        
+        // Panggil View menggunakan ROOT
+        require_once ROOT . '/App/Views/Dashboard/V_partdata.php';
     }
 
+    // ... (method store, update, delete, requireAuth tetap sama persis seperti milik Anda sebelumnya)
+    
     public function store(): void
     {
         $this->requireAuth();

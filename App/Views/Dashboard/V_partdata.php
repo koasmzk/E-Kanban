@@ -1,3 +1,7 @@
+<?php
+// Fallback jika variabel $parts belum terdefinisi (menghilangkan error merah di IDE)
+ $parts = $parts ?? [];
+?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -185,9 +189,11 @@
                                                 <?= htmlspecialchars($part['part_number']) ?>
                                             </span>
                                         </td>
-                                        <td class="td-desc"><?= htmlspecialchars($part['description'] ?: '—') ?></td>
+                                        <!-- PERBAIKAN: Pakai ?? bukan ?: untuk deskripsi null -->
+                                        <td class="td-desc"><?= htmlspecialchars($part['description'] ?? '—') ?></td>
+                                        <!-- PERBAIKAN: Pengecekan kosong untuk strtotime null -->
                                         <td class="td-date">
-                                            <?= date('d M Y', strtotime($part['created_at'])) ?>
+                                            <?= !empty($part['created_at']) ? date('d M Y', strtotime($part['created_at'])) : '—' ?>
                                         </td>
                                         <td class="col-action">
                                             <div class="action-btns">
@@ -222,7 +228,8 @@
                 <h3 class="modal-title" id="modalTitle">Tambah Part</h3>
                 <button class="modal-close" id="modalClose"><i class="fa-solid fa-xmark"></i></button>
             </div>
-            <form id="partForm" method="POST">
+            <!-- PERBAIKAN: Tambahkan action default untuk Tambah, dan akan diubah via JS saat Edit -->
+            <form id="partForm" method="POST" action="<?= $GLOBALS['baseURL'] ?>/data-part/store">
                 <input type="hidden" name="id" id="formId">
                 <div class="form-group">
                     <label class="form-label" for="formName">Nama Part <span class="required">*</span></label>

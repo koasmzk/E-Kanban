@@ -88,6 +88,7 @@ const modalClose   = document.getElementById('modalClose');
 const modalCancel  = document.getElementById('modalCancel');
 const btnTambah    = document.getElementById('btnTambah');
 const modalTitle   = document.getElementById('modalTitle');
+const partForm     = document.getElementById('partForm'); // Ambil element form
 
 const formId     = document.getElementById('formId');
 const formName   = document.getElementById('formName');
@@ -96,10 +97,16 @@ const formDesc   = document.getElementById('formDesc');
 
 function openAddModal() {
     if (modalTitle) modalTitle.textContent = 'Tambah Part';
+    
+    // PERBAIKAN: Ubah action dari /update ke /store (jika sebelumnya dipakai edit)
+    // Karena di HTML defaultnya sudah /store, kita cukup replace kalau ada /update
+    if (partForm) partForm.action = partForm.action.replace('/update', '/store');
+    
     if (formId) formId.value = '';
     if (formName) formName.value = '';
     if (formNumber) formNumber.value = '';
     if (formDesc) formDesc.value = '';
+    
     modalOverlay?.classList.add('active');
     setTimeout(() => formName?.focus(), 100);
 }
@@ -121,10 +128,15 @@ if (modalOverlay) {
 document.querySelectorAll('.btn-edit').forEach(btn => {
     btn.addEventListener('click', () => {
         if (modalTitle) modalTitle.textContent = 'Edit Part';
+        
+        // PERBAIKAN: Ubah action dari /store ke /update
+        if (partForm) partForm.action = partForm.action.replace('/store', '/update');
+        
         if (formId) formId.value = btn.dataset.id;
         if (formName) formName.value = btn.dataset.name;
         if (formNumber) formNumber.value = btn.dataset.number;
         if (formDesc) formDesc.value = btn.dataset.desc;
+        
         modalOverlay?.classList.add('active');
     });
 });
